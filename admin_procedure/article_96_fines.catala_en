@@ -1,0 +1,32 @@
+## Article 96. Financial Penalties (Fines)
+
+```catala
+declaration scope Article96Fines:
+  input applicantType content ApplicantType
+  output minFineNMGD content integer
+  output maxFineNMGD content integer
+
+scope Article96Fines:
+  label default_min definition minFineNMGD equals 0
+  label default_max definition maxFineNMGD equals 0
+  
+  label physical_person_min exception default_min
+  definition minFineNMGD under condition 
+    applicantType = PhysicalPerson 
+    consequence equals 70
+  
+  label physical_person_max exception default_max
+  definition maxFineNMGD under condition 
+    applicantType = PhysicalPerson 
+    consequence equals 530
+  
+  label legal_entity_min exception default_min
+  definition minFineNMGD under condition 
+    applicantType = LegalEntityOrEntrepreneur 
+    consequence equals 175
+  
+  label legal_entity_max exception default_max
+  definition maxFineNMGD under condition 
+    applicantType = LegalEntityOrEntrepreneur 
+    consequence equals 1765
+```

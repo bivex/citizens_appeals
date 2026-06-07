@@ -1,0 +1,15 @@
+```catala
+declaration enumeration YesNo:
+  -- No
+  -- Yes
+
+declaration enumeration ApplicantType:
+  -- PhysicalPerson
+  -- LegalEntityOrEntrepreneur
+
+declaration structure Application:
+  data isRepeated content YesNo
+  data isCourtPending content YesNo
+  data containsAbuse content YesNo
+  data isAntiState content YesNo
+```

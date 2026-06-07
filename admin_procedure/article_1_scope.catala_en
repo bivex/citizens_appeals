@@ -1,0 +1,21 @@
+## Article 1. Scope of the Law
+
+```catala
+declaration scope Article1Scope:
+  input isPolicyRecommendation content YesNo
+  input isExemptProceeding content YesNo
+  output lawApplies content YesNo
+
+scope Article1Scope:
+  label default_applies definition lawApplies equals Yes
+  
+  label exempt_recommendation exception default_applies
+  definition lawApplies under condition
+    isPolicyRecommendation = Yes
+    consequence equals No
+
+  label exempt_proceeding exception default_applies
+  definition lawApplies under condition
+    isExemptProceeding = Yes
+    consequence equals No
+```

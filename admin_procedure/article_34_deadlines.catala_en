@@ -1,0 +1,16 @@
+## Article 34. Deadlines for Case Resolution
+
+```catala
+declaration scope Article34Deadlines:
+  input isComplaint content YesNo
+  input hearingConducted content YesNo
+  output maxResolutionDays content integer
+
+scope Article34Deadlines:
+  label default_deadline definition maxResolutionDays equals 30
+  
+  label hearing_deadline exception default_deadline
+  definition maxResolutionDays under condition
+    isComplaint = No and hearingConducted = Yes
+    consequence equals 45
+```

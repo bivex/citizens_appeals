@@ -1,0 +1,21 @@
+## Article 80. Appeal Deadlines
+
+```catala
+declaration scope Article80Appeal:
+  input daysSinceNotification content integer
+  input hasValidReasonForDelay content YesNo
+  output appealAccepted content YesNo
+
+scope Article80Appeal:
+  label default_rejected definition appealAccepted equals No
+  
+  label accepted_on_time exception default_rejected
+  definition appealAccepted under condition
+    daysSinceNotification <= 30
+    consequence equals Yes
+    
+  label accepted_delayed exception default_rejected
+  definition appealAccepted under condition
+    daysSinceNotification > 30 and hasValidReasonForDelay = Yes
+    consequence equals Yes
+```

@@ -1,0 +1,19 @@
+## Article 45. Inadmissibility of Applications
+
+```catala
+declaration scope Article45Admissibility:
+  input app content Application
+  output isAdmissible content YesNo
+
+scope Article45Admissibility:
+  label default_admissible definition isAdmissible equals Yes
+  
+  label inadmissible_exception exception default_admissible
+  definition isAdmissible under condition
+    app.isAnonymous = Yes
+    or app.isRepeated = Yes
+    or app.isCourtPending = Yes
+    or app.containsAbuse = Yes
+    or app.isAntiState = Yes
+    consequence equals No
+```
