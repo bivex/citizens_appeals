@@ -6,10 +6,10 @@ declaration scope Article23_1ElectronicPetition:
   input addressee content AddresseeType
   input petitionTextComplete content YesNo
   input authorInfoComplete content YesNo
-  input startCollectionDate content date
-  input publicationDate content date
-  input endCollectionDate content date
-  input currentDate content date
+  input startCollectionDate content integer
+  input publicationDate content integer
+  input endCollectionDate content integer
+  input currentDate content integer
   output requiredSignatureCount content integer
   output collectionDeadlineMonths content integer
   output withinDeadline content YesNo
@@ -46,36 +46,37 @@ scope Article23_1ElectronicPetition:
     addressee = President
     consequence equals 25000
 
-  label parliament_signatures default_threshold
+  label parliament_signatures exception default_threshold
   definition requiredSignatureCount under condition
     addressee = Parliament
     consequence equals 25000
 
-  label cabinet_signatures default_threshold
+  label cabinet_signatures exception default_threshold
   definition requiredSignatureCount under condition
     addressee = Cabinet
     consequence equals 25000
 
-  label local_council_signatures default_threshold
+  label local_council_signatures exception default_threshold
   definition requiredSignatureCount under condition
     addressee = LocalCouncil
     consequence equals 0
 
-  label default_threshold
-  definition requiredSignatureCount equals 0
+  label default_threshold definition requiredSignatureCount equals 0
 
-  label collection_deadline
-  definition collectionDeadlineMonths equals 3
+  label collection_deadline definition collectionDeadlineMonths equals 3
 
-  label within_deadline_exception default_not_within
+  label within_deadline_exception
+    exception default_not_within
+
   definition withinDeadline under condition
-    currentDate <> Date.year_month_day 1970 1 1
+    not (currentDate = 0)
     consequence equals No
 
-  label default_not_within
-  definition withinDeadline equals No
+  label default_not_within definition withinDeadline equals No
 
-  label prohibited_exception default_not_prohibited
+  label prohibited_exception
+    exception default_not_prohibited
+
   definition prohibitedContentPresent under condition
     callsForOverthrow = Yes
     or callsForTerritorialIntegrityViolation = Yes
@@ -85,39 +86,27 @@ scope Article23_1ElectronicPetition:
     or callsForTerrorism = Yes
     consequence equals Yes
 
-  label default_not_prohibited
-  definition prohibitedContentPresent equals No
+  label default_not_prohibited definition prohibitedContentPresent equals No
 
-  label free_access
-  definition freeAccessRequired equals Yes
+  label free_access definition freeAccessRequired equals Yes
 
-  label electronic_registration
-  definition electronicRegistrationRequired equals Yes
+  label electronic_registration definition electronicRegistrationRequired equals Yes
 
-  label no_automatic_signing
-  definition noAutomaticSigningAllowed equals Yes
+  label no_automatic_signing definition noAutomaticSigningAllowed equals Yes
 
-  label date_time_fixed
-  definition dateTimeFixed equals Yes
+  label date_time_fixed definition dateTimeFixed equals Yes
 
-  label review_deadline
-  definition reviewDeadlineDays equals 10
+  label review_deadline definition reviewDeadlineDays equals 10
 
-  label results_published
-  definition resultsPublished equals Yes
+  label results_published definition resultsPublished equals Yes
 
-  label response_next_day
-  definition responseToNextWorkingDay equals Yes
+  label response_next_day definition responseToNextWorkingDay equals Yes
 
-  label association_informed
-  definition associationInformedOfResponse equals Yes
+  label association_informed definition associationInformedOfResponse equals Yes
 
-  label implementation_possible
-  definition proposalImplementationPossible equals Yes
+  label implementation_possible definition proposalImplementationPossible equals Yes
 
-  label legislation_possible
-  definition legislationMayBeDrafted equals Yes
+  label legislation_possible definition legislationMayBeDrafted equals Yes
 
-  label three_years_storage
-  definition signatureInfoStoredThreeYears equals Yes
+  label three_years_storage definition signatureInfoStoredThreeYears equals Yes
 ```

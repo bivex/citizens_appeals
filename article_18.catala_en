@@ -15,30 +15,21 @@ declaration scope Article18CitizenRights:
   output rightToDemandCompensation content YesNo
 
 scope Article18CitizenRights:
-  label present_arguments
-  definition rightToPresentArguments equals Yes
+  label present_arguments definition rightToPresentArguments equals Yes
 
-  label participate_verification
-  definition rightToParticipateInVerification equals Yes
+  label participate_verification definition rightToParticipateInVerification equals Yes
 
-  label access_materials
-  definition rightToAccessMaterials equals Yes
+  label access_materials definition rightToAccessMaterials equals Yes
 
-  label submit_materials
-  definition rightToSubmitAdditionalMaterials equals Yes
+  label submit_materials definition rightToSubmitAdditionalMaterials equals Yes
 
-  label be_present
-  definition rightToBePresentDuringReview equals Yes
+  label be_present definition rightToBePresentDuringReview equals Yes
 
-  label use_attorney
-  definition rightToUseAttorney equals Yes
+  label use_attorney definition rightToUseAttorney equals Yes
 
-  label written_response
-  definition rightToWrittenResponse equals Yes
+  label written_response definition rightToWrittenResponse equals Yes
 
-  label request_confidentiality
-  definition rightToRequestConfidentiality equals Yes
+  label request_confidentiality definition rightToRequestConfidentiality equals Yes
 
-  label demand_compensation
-  definition rightToDemandCompensation equals Yes
+  label demand_compensation definition rightToDemandCompensation equals Yes
 ```

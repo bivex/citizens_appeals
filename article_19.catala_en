@@ -25,58 +25,47 @@ declaration scope Article19AuthorityObligations:
   output establishDedicatedOfficial content YesNo
 
 scope Article19AuthorityObligations:
-  label objective_review
-  definition objectiveReviewRequired equals Yes
+  label objective_review definition objectiveReviewRequired equals Yes
 
-  label timely_review
-  definition timelyReviewRequired equals Yes
+  label timely_review definition timelyReviewRequired equals Yes
 
-  label motivated_resolution_exception default_not_motivated
+  label motivated_resolution_exception
+    exception default_not_motivated
+
   definition motivatedResolutionRequired under condition
     informationAccessRestricted = Yes
     consequence equals Yes
 
-  label default_not_motivated
-  definition motivatedResolutionRequired equals No
+  label default_not_motivated definition motivatedResolutionRequired equals No
 
-  label invite_citizen
-  definition inviteCitizenToSession equals Yes
+  label invite_citizen definition inviteCitizenToSession equals Yes
 
-  label cancel_decisions
-  definition cancelUnlawfulDecisions equals Yes
+  label cancel_decisions definition cancelUnlawfulDecisions equals Yes
 
-  label eliminate_causes
-  definition eliminateCausesAndConditions equals Yes
+  label eliminate_causes definition eliminateCausesAndConditions equals Yes
 
-  label restore_rights_exception default_not_restored
+  label restore_rights_exception
+    exception default_not_restored
+
   definition restoreViolatedRights under condition
     rightsViolated = Yes
     consequence equals Yes
 
-  label default_not_restored
-  definition restoreViolatedRights equals Yes
+  label default_not_restored definition restoreViolatedRights equals Yes
 
-  label enforce_decisions
-  definition enforceDecisions equals Yes
+  label enforce_decisions definition enforceDecisions equals Yes
 
-  label written_notification
-  definition writtenNotificationRequired equals Yes
+  label written_notification definition writtenNotificationRequired equals Yes
 
-  label compensate_damages
-  definition compensateMaterialDamages equals Yes
+  label compensate_damages definition compensateMaterialDamages equals Yes
 
-  label establish_responsibility
-  definition establishResponsibilityOfGuilty equals Yes
+  label establish_responsibility definition establishResponsibilityOfGuilty equals Yes
 
-  label no_groundless_transfer
-  definition noGroundlessTransfer equals Yes
+  label no_groundless_transfer definition noGroundlessTransfer equals Yes
 
-  label organize_reception
-  definition organizePersonalReception equals Yes
+  label organize_reception definition organizePersonalReception equals Yes
 
-  label analyze_and_inform
-  definition analyzeAndInform equals Yes
+  label analyze_and_inform definition analyzeAndInform equals Yes
 
-  label dedicated_official
-  definition establishDedicatedOfficial equals Yes
+  label dedicated_official definition establishDedicatedOfficial equals Yes
 ```

@@ -12,26 +12,27 @@ declaration scope Article14ProposalReview:
   output notificationRequired content YesNo
 
 scope Article14ProposalReview:
-  label review_required_exception default_no_review_required
+  label review_required_exception
+    exception default_no_review_required
+
   definition reviewRequired under condition
     appealType = Proposal
     consequence equals Yes
 
-  label default_no_review_required
-  definition reviewRequired equals Yes
+  label default_no_review_required definition reviewRequired equals Yes
 
-  label first_manager_exception default_not_first_manager
+  label first_manager_exception
+    exception default_not_first_manager
+
   definition mustBeReviewedByFirstManager under condition
     isHeroOfUSSR = Yes
     or isHeroOfSocialistLabor = Yes
     or isWarDisabled = Yes
     consequence equals Yes
 
-  label default_not_first_manager
-  definition mustBeReviewedByFirstManager equals No
+  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
 
-  label notification_required
-  definition notificationRequired equals Yes
+  label notification_required definition notificationRequired equals Yes
 ```
 
 ## Article 15. Review of applications (petitions)
@@ -52,40 +53,40 @@ declaration scope Article15ApplicationReview:
   output refusalMustReferenceLaw content YesNo
 
 scope Article15ApplicationReview:
-  label review_required_exception default_no_review_required
+  label review_required_exception
+    exception default_no_review_required
+
   definition reviewRequired under condition
     appealType = Application
     consequence equals Yes
 
-  label default_no_review_required
-  definition reviewRequired equals Yes
+  label default_no_review_required definition reviewRequired equals Yes
 
-  label first_manager_exception default_not_first_manager
+  label first_manager_exception
+    exception default_not_first_manager
+
   definition mustBeReviewedByFirstManager under condition
     isHeroOfUSSR = Yes
     or isHeroOfSocialistLabor = Yes
     or isWarDisabled = Yes
     consequence equals Yes
 
-  label default_not_first_manager
-  definition mustBeReviewedByFirstManager equals No
+  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
 
-  label objective_review
-  definition objectiveReviewRequired equals Yes
+  label objective_review definition objectiveReviewRequired equals Yes
 
-  label response_by_authority
-  definition responseByReceivingAuthority equals Yes
+  label response_by_authority definition responseByReceivingAuthority equals Yes
 
-  label refusal_motivated_exception default_not_motivated
+  label refusal_motivated_exception
+    exception default_not_motivated
+
   definition refusalMustBeMotivated under condition
     objectionSustained = No
     consequence equals Yes
 
-  label default_not_motivated
-  definition refusalMustBeMotivated equals No
+  label default_not_motivated definition refusalMustBeMotivated equals No
 
-  label refusal_law_reference
-  definition refusalMustReferenceLaw equals Yes
+  label refusal_law_reference definition refusalMustReferenceLaw equals Yes
 ```
 
 ## Article 16. Review of citizens' complaints
@@ -105,62 +106,65 @@ declaration scope Article16ComplaintReview:
   output previousDecisionsAttached content YesNo
 
 scope Article16ComplaintReview:
-  label submitted_to_higher_exception default_direct_to_court
+  label submitted_to_higher_exception
+    exception default_direct_to_court
+
   definition isSubmittedToHigherAuthority under condition
     appealType = Complaint and hasHigherAuthority = Yes
     consequence equals Yes
 
-  label default_direct_to_court
-  definition isSubmittedToHigherAuthority equals No
+  label default_direct_to_court definition isSubmittedToHigherAuthority equals No
 
-  label court_appeal_preserved
-  definition courtAppealRightPreserved equals Yes
+  label court_appeal_preserved definition courtAppealRightPreserved equals Yes
 
-  label first_manager_exception default_not_first_manager
+  label first_manager_exception
+    exception default_not_first_manager
+
   definition mustBeReviewedByFirstManager under condition
     author.category = HeroOfUSSR
     or author.category = HeroOfSocialistLabor
     or author.category = WarDisabled
     consequence equals Yes
 
-  label default_not_first_manager
-  definition mustBeReviewedByFirstManager equals No
+  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
 
-  label authorized_person_exception default_not_authorized
+  label authorized_person_exception
+    exception default_not_authorized
+
   definition complaintByAuthorizedPerson under condition
-    author.signed = Yes
+    not (author.category = None)
     consequence equals Yes
 
-  label default_not_authorized
-  definition complaintByAuthorizedPerson equals No
+  label default_not_authorized definition complaintByAuthorizedPerson equals No
 
-  label legal_rep_minor_exception default_not_legal_rep_minor
+  label legal_rep_minor_exception
+    exception default_not_legal_rep_minor
+
   definition complaintByLegalRepForMinor under condition
     author.category = Minor
     consequence equals Yes
 
-  label default_not_legal_rep_minor
-  definition complaintByLegalRepForMinor equals No
+  label default_not_legal_rep_minor definition complaintByLegalRepForMinor equals No
 
-  label legal_rep_incapacitated_exception default_not_legal_rep_incapacitated
+  label legal_rep_incapacitated_exception
+    exception default_not_legal_rep_incapacitated
+
   definition complaintByLegalRepForIncapacitated under condition
     author.category = DeclaredIncapacitated
     consequence equals Yes
 
-  label default_not_legal_rep_incapacitated
-  definition complaintByLegalRepForIncapacitated equals No
+  label default_not_legal_rep_incapacitated definition complaintByLegalRepForIncapacitated equals No
 
-  label previous_decisions
-  definition previousDecisionsAttached equals Yes
+  label previous_decisions definition previousDecisionsAttached equals Yes
 ```
 
 ## Article 17. Deadline for filing a complaint
 
 ```catala
 declaration scope Article17ComplaintDeadline:
-  input decisionDate content date
-  input citizenInformedDate content date
-  input complaintFiledDate content date
+  input decisionDate content integer
+  input citizenInformedDate content integer
+  input complaintFiledDate content integer
   input oneYearPassed content YesNo
   output withinOneMonthOfInforming content YesNo
   output withinOneYearOfDecision content YesNo
@@ -171,46 +175,50 @@ declaration scope Article17ComplaintDeadline:
   output courtAppealAllowed content YesNo
 
 scope Article17ComplaintDeadline:
-  label within_month_exception default_not_within_month
+  label within_month_exception
+    exception default_not_within_month
+
   definition withinOneMonthOfInforming under condition
-    citizenInformedDate <> Date.year_month_day 1970 1 1
+    not (citizenInformedDate = 0)
     consequence equals Yes
 
-  label default_not_within_month
-  definition withinOneMonthOfInforming equals No
+  label default_not_within_month definition withinOneMonthOfInforming equals No
 
-  label within_year_exception default_not_within_year
+  label within_year_exception
+    exception default_not_within_year
+
   definition withinOneYearOfDecision under condition
-    decisionDate <> Date.year_month_day 1970 1 1
+    not (decisionDate = 0)
     consequence equals Yes
 
-  label default_not_within_year
-  definition withinOneYearOfDecision equals No
+  label default_not_within_year definition withinOneYearOfDecision equals No
 
-  label deadline_missed_exception default_deadline_ok
+  label deadline_missed_exception
+    exception default_deadline_ok
+
   definition deadlineMissed under condition
     oneYearPassed = Yes
     consequence equals Yes
 
-  label default_deadline_ok
-  definition deadlineMissed equals No
+  label default_deadline_ok definition deadlineMissed equals No
 
-  label renewable_exception default_not_renewable
+  label renewable_exception
+    exception default_not_renewable
+
   definition deadlineCanBeRenewed under condition
     deadlineMissedForRespectableReason = Yes
     consequence equals Yes
 
-  label default_not_renewable
-  definition deadlineCanBeRenewed equals No
+  label default_not_renewable definition deadlineCanBeRenewed equals No
 
-  label rejected_as_late_exception default_not_rejected
+  label rejected_as_late_exception
+    exception default_not_rejected
+
   definition complaintRejectedAsLate under condition
     deadlineMissed = Yes and deadlineCanBeRenewed = No
     consequence equals Yes
 
-  label default_not_rejected
-  definition complaintRejectedAsLate equals No
+  label default_not_rejected definition complaintRejectedAsLate equals No
 
-  label court_appeal
-  definition courtAppealAllowed equals Yes
+  label court_appeal definition courtAppealAllowed equals Yes
 ```

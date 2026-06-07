@@ -24,34 +24,32 @@ scope Article8NonReviewableAppeals:
     appealForm = Written and isAnonymous = Yes
     consequence equals Yes
 
-  label default_anonymous
-  definition isAnonymousNotReviewable equals No
+  label default_anonymous definition isAnonymousNotReviewable equals No
 
   label repeated_not_reviewable exception default_repeated
   definition isRepeatedNotReviewable under condition
     isRepeatedAppeal = Yes and firstAppealResolvedOnMerits = Yes
     consequence equals Yes
 
-  label default_repeated
-  definition isRepeatedNotReviewable equals No
+  label default_repeated definition isRepeatedNotReviewable equals No
 
   label expired_not_reviewable exception default_expired
   definition isExpiredNotReviewable under condition
     reviewPeriodExpired = Yes
     consequence equals Yes
 
-  label default_expired
-  definition isExpiredNotReviewable equals No
+  label default_expired definition isExpiredNotReviewable equals No
 
   label incapacitated_not_reviewable exception default_incapacitated
   definition isIncapacitatedNotReviewable under condition
     applicantDeclaredIncapacitated = Yes
     consequence equals Yes
 
-  label default_incapacitated
-  definition isIncapacitatedNotReviewable equals No
+  label default_incapacitated definition isIncapacitatedNotReviewable equals No
 
-  label not_reviewable_exception default_reviewable
+  label not_reviewable_exception
+    exception default_reviewable
+
   definition isNotReviewable under condition
     isAnonymousNotReviewable = Yes
     or isRepeatedNotReviewable = Yes
@@ -59,14 +57,14 @@ scope Article8NonReviewableAppeals:
     or isIncapacitatedNotReviewable = Yes
     consequence equals Yes
 
-  label default_reviewable
-  definition isNotReviewable equals No
+  label default_reviewable definition isNotReviewable equals No
 
-  label termination_required_exception default_termination
+  label termination_required_exception
+    exception default_termination
+
   definition terminationDecisionRequired under condition
     isNotReviewable = Yes
     consequence equals Yes
 
-  label default_termination
-  definition terminationDecisionRequired equals No
+  label default_termination definition terminationDecisionRequired equals No
 ```

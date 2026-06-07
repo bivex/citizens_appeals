@@ -4,9 +4,7 @@
 declaration scope Article3AppealClassification:
   input appealType content AppealType
   input appealForm content AppealForm
-  input proposalSubstance content string
-  input applicationSubstance content string
-  input complaintSubstance content string
+  input containsSubstance content YesNo
   input requestsRecognition content YesNo
   input requestsRightsRestoration content YesNo
   input violationActions content YesNo
@@ -19,41 +17,40 @@ declaration scope Article3AppealClassification:
   output classificationValid content YesNo
 
 scope Article3AppealClassification:
-  label proposal_defined exception default_proposal
+  label proposal_defined exception proposal_default
   definition isProposal under condition
     appealType = Proposal
     consequence equals Yes
 
-  label default_proposal
-  definition isProposal equals No
+  label proposal_default definition isProposal equals No
 
-  label application_defined exception default_application
+  label application_defined exception application_default
   definition isApplication under condition
     appealType = Application and requestsRecognition = No
     consequence equals Yes
 
-  label complaint_defined exception default_application
+  label complaint_application exception application_default
   definition isApplication under condition
     appealType = Application and requestsRecognition = Yes
     consequence equals No
 
-  label default_application
-  definition isApplication equals No
+  label application_default definition isApplication equals No
 
-  label complaint_recognized_defined exception default_complaint
+  label complaint_recognized_default definition isComplaintRecognized equals No
+
+  label complaint_recognized exception complaint_recognized_default
   definition isComplaintRecognized under condition
     appealType = Complaint and (violationActions = Yes or violationDecisions = Yes or violationInaction = Yes)
     consequence equals Yes
 
-  label is_complaint_defined default_complaint
+  label is_complaint exception complaint_default
   definition isComplaint under condition
     isComplaintRecognized = Yes or (appealType = Application and requestsRecognition = Yes)
     consequence equals Yes
 
-  label default_complaint
-  definition isComplaint equals No
+  label complaint_default definition isComplaint equals No
 
-  label classification_valid exception default_classification_valid
+  label classification_valid exception classification_default
   definition classificationValid under condition
     (isProposal = Yes or isApplication = Yes or isComplaint = Yes)
     and not (isProposal = Yes and isApplication = Yes)
@@ -61,8 +58,7 @@ scope Article3AppealClassification:
     and not (isApplication = Yes and isComplaint = Yes)
     consequence equals Yes
 
-  label default_classification_valid
-  definition classificationValid equals No
+  label classification_default definition classificationValid equals No
 ```
 
 ## Article 4. Decisions, actions (inaction) that may be appealed
@@ -71,29 +67,27 @@ scope Article3AppealClassification:
 declaration scope Article4AppealableActions:
   input subject content ComplaintSubject
   output isAppealable content YesNo
-  output appealsGround content string
 
 scope Article4AppealableActions:
-  label rights_violated_exception default_not_appealable
+  label rights_violated exception not_appealable_default
   definition isAppealable under condition
     subject.rightsViolated = Yes or subject.freedomsViolated = Yes
     consequence equals Yes
 
-  label unlawful_obligations_exception default_not_appealable
+  label unlawful_obligations exception not_appealable_default
   definition isAppealable under condition
     subject.unlawfulObligations = Yes
     consequence equals Yes
 
-  label unlawful_responsibility_exception default_not_appealable
+  label unlawful_responsibility exception not_appealable_default
   definition isAppealable under condition
     subject.unlawfulResponsibility = Yes
     consequence equals Yes
 
-  label obstacles_exception default_not_appealable
+  label obstacles exception not_appealable_default
   definition isAppealable under condition
     subject.rightsViolated = Yes or subject.freedomsViolated = Yes or subject.unlawfulObligations = Yes
     consequence equals Yes
 
-  label default_not_appealable
-  definition isAppealable equals Yes
+  label not_appealable_default definition isAppealable equals No
 ```

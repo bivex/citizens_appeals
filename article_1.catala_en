@@ -13,29 +13,29 @@ declaration scope Article1AppealRight:
   output appealMustBeAccepted content YesNo
 
 scope Article1AppealRight:
-  label citizen_right_exception default_citizen_right
+  label has_appeal_right_default
+  definition hasAppealRight equals No
+
+  label citizen_right exception has_appeal_right_default
   definition hasAppealRight under condition
     author.category = Citizen
     consequence equals Yes
 
-  label military_exception default_citizen_right
+  label military_no_right exception has_appeal_right_default
   definition hasAppealRight under condition
     isMilitaryOrPolice = Yes and concernsOfficialDuties = Yes
     consequence equals No
 
-  label foreigner_right_exception default_citizen_right
+  label foreigner_right exception has_appeal_right_default
   definition hasAppealRight under condition
     isForeigner = Yes and internationalTreatyException = No
     consequence equals Yes
 
-  label default_citizen_right
-  definition hasAppealRight equals No
+  label must_accept_default
+  definition appealMustBeAccepted equals No
 
-  label must_accept_exception default_must_accept
+  label must_accept exception must_accept_default
   definition appealMustBeAccepted under condition
     hasAppealRight = Yes
     consequence equals Yes
-
-  label default_must_accept
-  definition appealMustBeAccepted equals No
 ```

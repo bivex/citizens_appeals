@@ -6,8 +6,8 @@ declaration scope Article20AppealReviewDeadline:
   input requiresAdditionalStudy content YesNo
   input privilegesApplicable content YesNo
   input writtenShorteningRequest content YesNo
-  input appealFiledDate content date
-  input currentDate content date
+  input appealFiledDate content integer
+  input currentDate content integer
   output maxReviewDays content integer
   output urgentReviewRequired content YesNo
   output extendedDeadlineAllowed content YesNo
@@ -16,51 +16,57 @@ declaration scope Article20AppealReviewDeadline:
   output deadlineExceeded content YesNo
 
 scope Article20AppealReviewDeadline:
-  label max_review_days_exception default_month
+  label max_review_days_exception
+    exception default_month
+
   definition maxReviewDays under condition
     requiresAdditionalStudy = Yes
     consequence equals 30
 
-  label default_month
-  definition maxReviewDays equals 15
+  label default_month definition maxReviewDays equals 15
 
-  label urgent_exception default_not_urgent
+  label urgent_exception
+    exception default_not_urgent
+
   definition urgentReviewRequired under condition
     privilegesApplicable = Yes
     consequence equals Yes
 
-  label default_not_urgent
-  definition urgentReviewRequired equals No
+  label default_not_urgent definition urgentReviewRequired equals No
 
-  label extended_exception default_not_extended
+  label extended_exception
+    exception default_not_extended
+
   definition extendedDeadlineAllowed under condition
     requiresAdditionalStudy = Yes
     consequence equals Yes
 
-  label default_not_extended
-  definition extendedDeadlineAllowed equals No
+  label default_not_extended definition extendedDeadlineAllowed equals No
 
-  label max_extended_exception default_max_normal
+  label max_extended_exception
+    exception default_max_normal
+
   definition maxExtendedDays under condition
     extendedDeadlineAllowed = Yes
     consequence equals 45
 
-  label default_max_normal
-  definition maxExtendedDays equals 30
+  label default_max_normal definition maxExtendedDays equals 30
 
-  label shortening_exception default_not_shortening
+  label shortening_exception
+    exception default_not_shortening
+
   definition shorteningPossible under condition
     writtenShorteningRequest = Yes
     consequence equals Yes
 
-  label default_not_shortening
-  definition shorteningPossible equals No
+  label default_not_shortening definition shorteningPossible equals No
 
-  label deadline_exceeded_exception default_not_exceeded
+  label deadline_exceeded_exception
+    exception default_not_exceeded
+
   definition deadlineExceeded under condition
-    currentDate <> Date.year_month_day 1970 1 1
+    not (currentDate = 0)
     consequence equals No
 
-  label default_not_exceeded
-  definition deadlineExceeded equals No
+  label default_not_exceeded definition deadlineExceeded equals No
 ```

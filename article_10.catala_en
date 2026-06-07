@@ -15,61 +15,68 @@ declaration scope Article10Confidentiality:
   output disclosureProhibited content YesNo
 
 scope Article10Confidentiality:
-  label state_secret_disclosed_exception default_no_state_secret
+  label state_secret_disclosed_exception
+    exception default_no_state_secret
+
   definition stateSecretDisclosed under condition
     personalInfoDisclosed = Yes and authorConsent = No
     consequence equals Yes
 
-  label default_no_state_secret
-  definition stateSecretDisclosed equals No
+  label default_no_state_secret definition stateSecretDisclosed equals No
 
-  label other_secret_disclosed_exception default_no_other_secret
+  label other_secret_disclosed_exception
+    exception default_no_other_secret
+
   definition otherProtectedSecretDisclosed under condition
     personalInfoDisclosed = Yes and authorConsent = No
     consequence equals Yes
 
-  label default_no_other_secret
-  definition otherProtectedSecretDisclosed equals No
+  label default_no_other_secret definition otherProtectedSecretDisclosed equals No
 
-  label rights_infringed_exception default_no_infringement
+  label rights_infringed_exception
+    exception default_no_infringement
+
   definition rightsInfringedByDisclosure under condition
     personalInfoDisclosed = Yes and authorConsent = No
     consequence equals Yes
 
-  label default_no_infringement
-  definition rightsInfringedByDisclosure equals No
+  label default_no_infringement definition rightsInfringedByDisclosure equals No
 
-  label irrelevant_data_exception default_no_irrelevant
+  label irrelevant_data_exception
+    exception default_no_irrelevant
+
   definition dataIrrelevantToAppealCollected under condition
     personalInfoDisclosed = Yes
     consequence equals Yes
 
-  label default_no_irrelevant
-  definition dataIrrelevantToAppealCollected equals No
+  label default_no_irrelevant definition dataIrrelevantToAppealCollected equals No
 
-  label author_requested_exception default_no_request
+  label author_requested_exception
+    exception default_no_request
+
   definition authorRequestedConfidentiality under condition
-    author.lastName <> ""
+    author.lastName  != 0
     consequence equals Yes
 
-  label default_no_request
-  definition authorRequestedConfidentiality equals No
+  label default_no_request definition authorRequestedConfidentiality equals No
 
-  label case_participants_exception default_not_participants
+  label case_participants_exception
+    exception default_not_participants
+
   definition disclosureToCaseParticipantsAllowed under condition
     authorRequestedConfidentiality = No
     consequence equals Yes
 
-  label default_not_participants
-  definition disclosureToCaseParticipantsAllowed equals No
+  label default_not_participants definition disclosureToCaseParticipantsAllowed equals No
 
-  label disclosure_prohibited_exception default_disclosure_ok
+  label disclosure_prohibited_exception
+    exception default_disclosure_ok
+
   definition disclosureProhibited under condition
     authorRequestedConfidentiality = Yes
     or stateSecretDisclosed = Yes
     or otherProtectedSecretDisclosed = Yes
     consequence equals Yes
 
-  label default_disclosure_ok
-  definition disclosureProhibited equals No
+  label default_disclosure_ok definition disclosureProhibited equals No
 ```

@@ -10,32 +10,35 @@ declaration scope Article24Responsibility:
   output criminalResponsibilityApplies content YesNo
 
 scope Article24Responsibility:
-  label civil_exception default_not_civil
+  label civil_exception
+    exception default_not_civil
+
   definition civilResponsibilityApplies under condition
     violationOccurred = Yes
     and legalResponsibilityType = Civil
     consequence equals Yes
 
-  label default_not_civil
-  definition civilResponsibilityApplies equals No
+  label default_not_civil definition civilResponsibilityApplies equals No
 
-  label administrative_exception default_not_administrative
+  label administrative_exception
+    exception default_not_administrative
+
   definition administrativeResponsibilityApplies under condition
     violationOccurred = Yes
     and legalResponsibilityType = Administrative
     consequence equals Yes
 
-  label default_not_administrative
-  definition administrativeResponsibilityApplies equals No
+  label default_not_administrative definition administrativeResponsibilityApplies equals No
 
-  label criminal_exception default_not_criminal
+  label criminal_exception
+    exception default_not_criminal
+
   definition criminalResponsibilityApplies under condition
     violationOccurred = Yes
     and legalResponsibilityType = Criminal
     consequence equals Yes
 
-  label default_not_criminal
-  definition criminalResponsibilityApplies equals No
+  label default_not_criminal definition criminalResponsibilityApplies equals No
 ```
 
 ## Article 25. Compensation of damages to a citizen in connection with
@@ -54,32 +57,34 @@ declaration scope Article25Compensation:
   output moralDamagesCompensable content YesNo
 
 scope Article25Compensation:
-  label compensation_mandatory_exception default_not_mandatory
+  label compensation_mandatory_exception
+    exception default_not_mandatory
+
   definition compensationMandatory under condition
     complaintSatisfied = Yes and unlawfulDecisionMade = Yes
     consequence equals Yes
 
-  label default_not_mandatory
-  definition compensationMandatory equals No
+  label default_not_mandatory definition compensationMandatory equals No
 
-  label travel_expenses_exception default_not_travel
+  label travel_expenses_exception
+    exception default_not_travel
+
   definition travelExpensesCompensable under condition
     travelExpensesIncurred = Yes
     consequence equals Yes
 
-  label default_not_travel
-  definition travelExpensesCompensable equals No
+  label default_not_travel definition travelExpensesCompensable equals No
 
-  label lost_wages_exception default_not_wages
+  label lost_wages_exception
+    exception default_not_wages
+
   definition lostWagesCompensable under condition
     lostWagesIncurred = Yes
     consequence equals Yes
 
-  label default_not_wages
-  definition lostWagesCompensable equals No
+  label default_not_wages definition lostWagesCompensable equals No
 
-  label moral_damages
-  definition moralDamagesCompensable equals Yes
+  label moral_damages definition moralDamagesCompensable equals Yes
 ```
 
 ## Article 26. Responsibility of citizens for submitting appeals
@@ -94,7 +99,9 @@ declaration scope Article26CitizenResponsibility:
   output unlawfulResponsibilityApplies content YesNo
 
 scope Article26CitizenResponsibility:
-  label unlawful_responsibility_exception default_not_unlawful
+  label unlawful_responsibility_exception
+    exception default_not_unlawful
+
   definition unlawfulResponsibilityApplies under condition
     appealContainsSlander = Yes
     or appealContainsInsults = Yes
@@ -102,8 +109,7 @@ scope Article26CitizenResponsibility:
     or appealIncitementOfHatred = Yes
     consequence equals Yes
 
-  label default_not_unlawful
-  definition unlawfulResponsibilityApplies equals No
+  label default_not_unlawful definition unlawfulResponsibilityApplies equals No
 ```
 
 ## Article 27. Compensation for costs of verifying appeals
@@ -115,28 +121,14 @@ declaration scope Article27CostCompensation:
   output verificationCostsRecoverable content YesNo
 
 scope Article27CostCompensation:
-  label costs_recoverable_exception default_not_recoverable
+  label costs_recoverable_exception
+    exception default_not_recoverable
+
   definition verificationCostsRecoverable under condition
     appealContainsKnowinglyFalseInfo = Yes
     consequence equals Yes
 
-  label default_not_recoverable
-  definition verificationCostsRecoverable equals No
-```
-
-## Article 28. Control over compliance with legislation
-##   on citizens' appeals
-
-```catala
-declaration scope Article28Control:
-  input controlByParliament content YesNo
-  input controlByPresident content YesNo
-  input controlByCabinet content YesNo
-  input controlByOmbudsman content YesNo
-  input controlByLocalAuthorities content YesNo
-  input controlByMinistries content YesNo
-  output controlSystemInPlace content YesNo
-
+  label default_not_recoverable definition verificationCostsRecoverable equals No
 ```
 
 ## Article 28. Control over compliance with legislation
@@ -153,7 +145,9 @@ declaration scope Article28Control:
   output controlSystemInPlace content YesNo
 
 scope Article28Control:
-  label control_system_exception exception default_not_in_place
+  label control_system_exception
+    exception default_not_in_place
+
   definition controlSystemInPlace under condition
     controlByParliament = Yes
     or controlByPresident = Yes
@@ -163,6 +157,5 @@ scope Article28Control:
     or controlByMinistries = Yes
     consequence equals Yes
 
-  label default_not_in_place
-  definition controlSystemInPlace equals No
+  label default_not_in_place definition controlSystemInPlace equals No
 ```
