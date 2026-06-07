@@ -1,0 +1,88 @@
+## Article 5. Requirements for Appeal
+
+```catala
+declaration scope Article5AppealRequirements:
+  input author content AppealAuthor
+  input appealForm content AppealForm
+  input addressee content AddresseeType
+  input containsSubstance content YesNo
+  input requiredInfoComplete content YesNo
+  input hasComplaintRedressAgency content YesNo
+  output meetsNameRequirement content YesNo
+  output meetsResidenceRequirement content YesNo
+  output meetsSubstanceRequirement content YesNo
+  output meetsSignatureRequirement content YesNo
+  output meetsEmailRequirement content YesNo
+  output meetsAllRequirements content YesNo
+  output returnValueDeadline content integer
+  output canBeReturned content YesNo
+
+scope Article5AppealRequirements:
+  label name_provided_exception default_name
+  definition meetsNameRequirement under condition
+    author.lastName <> "" and author.firstName <> ""
+    consequence equals Yes
+
+  label default_name
+  definition meetsNameRequirement equals No
+
+  label residence_provided_exception default_residence
+  definition meetsResidenceRequirement under condition
+    author.residence <> ""
+    consequence equals Yes
+
+  label default_residence
+  definition meetsResidenceRequirement equals No
+
+  label substance_provided_exception default_substance
+  definition meetsSubstanceRequirement under condition
+    containsSubstance = Yes
+    consequence equals Yes
+
+  label default_substance
+  definition meetsSubstanceRequirement equals No
+
+  label signed_exception default_signature
+  definition meetsSignatureRequirement under condition
+    appealForm = Written and author.signed = Yes
+    consequence equals Yes
+
+  label default_signature
+  definition meetsSignatureRequirement equals No
+
+  label email_provided_exception default_email
+  definition meetsEmailRequirement under condition
+    appealForm = Electronic and author.emailAddress <> ""
+    consequence equals Yes
+
+  label default_email
+  definition meetsEmailRequirement equals No
+
+  label all_requirements_met exception default_not_met
+  definition meetsAllRequirements under condition
+    meetsNameRequirement = Yes
+    and meetsResidenceRequirement = Yes
+    and meetsSubstanceRequirement = Yes
+    and meetsSignatureRequirement = Yes
+    and meetsEmailRequirement = Yes
+    consequence equals Yes
+
+  label default_not_met
+  definition meetsAllRequirements equals No
+
+  label return_deadline_exception default_return
+  definition returnValueDeadline under condition
+    meetsAllRequirements = No
+    consequence equals 10
+
+  label default_return
+  definition returnValueDeadline equals 0
+
+  label can_be_returned_exception default_cannot_return
+  definition canBeReturned under condition
+    meetsAllRequirements = No and hasComplaintRedressAgency = No
+    consequence equals Yes
+
+  label default_cannot_return
+  definition canBeReturned equals No
+```

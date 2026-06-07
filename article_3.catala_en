@@ -1,0 +1,99 @@
+## Article 3. Basic Terms
+
+```catala
+declaration scope Article3AppealClassification:
+  input appealType content AppealType
+  input appealForm content AppealForm
+  input proposalSubstance content string
+  input applicationSubstance content string
+  input complaintSubstance content string
+  input requestsRecognition content YesNo
+  input requestsRightsRestoration content YesNo
+  input violationActions content YesNo
+  input violationDecisions content YesNo
+  input violationInaction content YesNo
+  output isProposal content YesNo
+  output isApplication content YesNo
+  output isComplaint content YesNo
+  output isComplaintRecognized content YesNo
+  output classificationValid content YesNo
+
+scope Article3AppealClassification:
+  label proposal_defined exception default_proposal
+  definition isProposal under condition
+    appealType = Proposal
+    consequence equals Yes
+
+  label default_proposal
+  definition isProposal equals No
+
+  label application_defined exception default_application
+  definition isApplication under condition
+    appealType = Application and requestsRecognition = No
+    consequence equals Yes
+
+  label complaint_defined exception default_application
+  definition isApplication under condition
+    appealType = Application and requestsRecognition = Yes
+    consequence equals No
+
+  label default_application
+  definition isApplication equals No
+
+  label complaint_recognized_defined exception default_complaint
+  definition isComplaintRecognized under condition
+    appealType = Complaint and (violationActions = Yes or violationDecisions = Yes or violationInaction = Yes)
+    consequence equals Yes
+
+  label is_complaint_defined default_complaint
+  definition isComplaint under condition
+    isComplaintRecognized = Yes or (appealType = Application and requestsRecognition = Yes)
+    consequence equals Yes
+
+  label default_complaint
+  definition isComplaint equals No
+
+  label classification_valid exception default_classification_valid
+  definition classificationValid under condition
+    (isProposal = Yes or isApplication = Yes or isComplaint = Yes)
+    and not (isProposal = Yes and isApplication = Yes)
+    and not (isProposal = Yes and isComplaint = Yes)
+    and not (isApplication = Yes and isComplaint = Yes)
+    consequence equals Yes
+
+  label default_classification_valid
+  definition classificationValid equals No
+```
+
+## Article 4. Decisions, actions (inaction) that may be appealed
+
+```catala
+declaration scope Article4AppealableActions:
+  input subject content ComplaintSubject
+  output isAppealable content YesNo
+  output appealsGround content string
+
+scope Article4AppealableActions:
+  label rights_violated_exception default_not_appealable
+  definition isAppealable under condition
+    subject.rightsViolated = Yes or subject.freedomsViolated = Yes
+    consequence equals Yes
+
+  label unlawful_obligations_exception default_not_appealable
+  definition isAppealable under condition
+    subject.unlawfulObligations = Yes
+    consequence equals Yes
+
+  label unlawful_responsibility_exception default_not_appealable
+  definition isAppealable under condition
+    subject.unlawfulResponsibility = Yes
+    consequence equals Yes
+
+  label obstacles_exception default_not_appealable
+  definition isAppealable under condition
+    subject.rightsViolated = Yes or subject.freedomsViolated = Yes or subject.unlawfulObligations = Yes
+    consequence equals Yes
+
+  label default_not_appealable
+  definition isAppealable equals Yes
+```

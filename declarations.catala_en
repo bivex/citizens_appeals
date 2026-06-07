@@ -1,0 +1,100 @@
+```catala
+declaration enumeration YesNo:
+  -- No
+  -- Yes
+
+declaration enumeration AppealType:
+  -- Proposal
+  -- Application
+  -- Complaint
+
+declaration enumeration AppealForm:
+  -- Written
+  -- Oral
+  -- Electronic
+
+declaration enumeration AppealStatus:
+  -- Submitted
+  -- UnderReview
+  -- Transferred
+  -- RejectedAnonymous
+  -- RejectedLate
+  -- ReviewedByFirstManager
+  -- Resolved
+
+declaration enumeration ApplicantCategory:
+  -- Citizen
+  -- MilitaryServiceMember
+  -- PoliceOfficer
+  -- SBUMember
+  -- PrisonServiceMember
+  -- Foreigner
+  -- HeroOfUSSR
+  -- HeroOfSocialistLabor
+  -- WarDisabled
+  -- DeclaredIncapacitated
+  -- Minor
+  -- Collective
+
+declaration enumeration AddresseeType:
+  -- StateAuthority
+  -- LocalSelfGov
+  -- AssociationOfCitizens
+  -- Enterprise
+  -- Institution
+  -- Organization
+  -- Media
+  -- Official
+  -- President
+  -- Parliament
+  -- Cabinet
+  -- LocalCouncil
+
+declaration enumeration LegalResponsibilityType:
+  -- Civil
+  -- Administrative
+  -- Criminal
+
+declaration enumeration DamagesType:
+  -- MaterialDamages
+  -- MoralDamages
+  -- TravelExpenses
+  -- LostWages
+
+declaration structure AppealAuthor:
+  data firstName content string
+  data lastName content string
+  data patronymic content string
+  data residence content string
+  data emailAddress content string
+  data phoneNumber content string
+  data category content ApplicantCategory
+  data signed content YesNo
+  data submissionDate content date
+
+declaration structure ComplaintSubject:
+  data actionsDecisions content YesNo
+  data rightsViolated content YesNo
+  data freedomsViolated content YesNo
+  data unlawfulObligations content YesNo
+  data unlawfulResponsibility content YesNo
+
+declaration structure EvidenceDocument:
+  data hasPreviousDecisions content YesNo
+  data documentDate content date
+
+declaration structure AppealReviewResult:
+  data appealAccepted content YesNo
+  data transferRequired content YesNo
+  data transferDeadlineDays content integer
+  data reviewDeadlineDays content integer
+  data reviewPeriodExtended content YesNo
+  content maxReviewDaysExtended content integer
+  data requiresFirstManagerPersonalReview content YesNo
+  data anonymousRejected content YesNo
+  data lateComplaintRejected content YesNo
+  data repeatedAppealRejected content YesNo
+  data wrongJurisdictionRejected content YesNo
+  data freeOfCharge content YesNo
+  data damagesCompensated content YesNo
+```

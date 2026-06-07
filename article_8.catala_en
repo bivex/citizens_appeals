@@ -1,0 +1,72 @@
+## Article 8. Appeals not subject to review and resolution
+
+```catala
+declaration scope Article8NonReviewableAppeals:
+  input author content AppealAuthor
+  input appealForm content AppealForm
+  input appealType content AppealType
+  input isAnonymous content YesNo
+  input isRepeatedAppeal content YesNo
+  input firstAppealResolvedOnMerits content YesNo
+  input reviewPeriodExpired content YesNo
+  input applicantDeclaredIncapacitated content YesNo
+  input isCollectiveAppeal content YesNo
+  output isAnonymousNotReviewable content YesNo
+  output isRepeatedNotReviewable content YesNo
+  output isExpiredNotReviewable content YesNo
+  output isIncapacitatedNotReviewable content YesNo
+  output isNotReviewable content YesNo
+  output terminationDecisionRequired content YesNo
+
+scope Article8NonReviewableAppeals:
+  label anonymous_not_reviewable exception default_anonymous
+  definition isAnonymousNotReviewable under condition
+    appealForm = Written and isAnonymous = Yes
+    consequence equals Yes
+
+  label default_anonymous
+  definition isAnonymousNotReviewable equals No
+
+  label repeated_not_reviewable exception default_repeated
+  definition isRepeatedNotReviewable under condition
+    isRepeatedAppeal = Yes and firstAppealResolvedOnMerits = Yes
+    consequence equals Yes
+
+  label default_repeated
+  definition isRepeatedNotReviewable equals No
+
+  label expired_not_reviewable exception default_expired
+  definition isExpiredNotReviewable under condition
+    reviewPeriodExpired = Yes
+    consequence equals Yes
+
+  label default_expired
+  definition isExpiredNotReviewable equals No
+
+  label incapacitated_not_reviewable exception default_incapacitated
+  definition isIncapacitatedNotReviewable under condition
+    applicantDeclaredIncapacitated = Yes
+    consequence equals Yes
+
+  label default_incapacitated
+  definition isIncapacitatedNotReviewable equals No
+
+  label not_reviewable_exception default_reviewable
+  definition isNotReviewable under condition
+    isAnonymousNotReviewable = Yes
+    or isRepeatedNotReviewable = Yes
+    or isExpiredNotReviewable = Yes
+    or isIncapacitatedNotReviewable = Yes
+    consequence equals Yes
+
+  label default_reviewable
+  definition isNotReviewable equals No
+
+  label termination_required_exception default_termination
+  definition terminationDecisionRequired under condition
+    isNotReviewable = Yes
+    consequence equals Yes
+
+  label default_termination
+  definition terminationDecisionRequired equals No
+```

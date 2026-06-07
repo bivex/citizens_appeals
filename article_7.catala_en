@@ -1,0 +1,74 @@
+## Article 7. Prohibition of Refusal to Accept and Review Appeal
+
+```catala
+declaration scope Article7ProhibitionOfRefusal:
+  input meetsRequirements content YesNo
+  input author content AppealAuthor
+  input appealForm content AppealForm
+  input appealType content AppealType
+  input politicalViewsMentioned content YesNo
+  input partyMembershipMentioned content YesNo
+  input genderMentioned content YesNo
+  input ageMentioned content YesNo
+  input religionMentioned content YesNo
+  input nationalityMentioned content YesNo
+  input appealLanguageUnknown content YesNo
+  input addresseeHasAuthority content YesNo
+  input infoIncomplete content YesNo
+  input isComplaintAgainstAddressee content YesNo
+  output cannotRefuseAcceptance content YesNo
+  output refusalProhibited content YesNo
+  output mustTransfer content YesNo
+  output transferDeadlineDays content integer
+  output mustReturnWithExplanation content YesNo
+  output cannotForwardToSubjectOfComplaint content YesNo
+
+scope Article7ProhibitionOfRefusal:
+  label acceptance_required exception default_acceptance
+  definition cannotRefuseAcceptance under condition
+    meetsRequirements = Yes
+    consequence equals Yes
+
+  label default_acceptance
+  definition cannotRefuseAcceptance equals No
+
+  label refusal_prohibited_exception default_refusal
+  definition refusalProhibited under condition
+    cannotRefuseAcceptance = Yes
+    consequence equals Yes
+
+  label default_refusal
+  definition refusalProhibited equals No
+
+  label must_transfer_exception default_transfer
+  definition mustTransfer under condition
+    refusalProhibited = Yes and addresseeHasAuthority = No
+    consequence equals Yes
+
+  label default_transfer
+  definition mustTransfer equals No
+
+  label transfer_deadline_exception default_transfer_deadline
+  definition transferDeadlineDays under condition
+    mustTransfer = Yes
+    consequence equals 5
+
+  label default_transfer_deadline
+  definition transferDeadlineDays equals 0
+
+  label return_for_info_exception default_return
+  definition mustReturnWithExplanation under condition
+    refusalProhibited = Yes and infoIncomplete = Yes
+    consequence equals Yes
+
+  label default_return
+  definition mustReturnWithExplanation equals No
+
+  label cannot_forward_exception default_can_forward
+  definition cannotForwardToSubjectOfComplaint under condition
+    isComplaintAgainstAddressee = Yes
+    consequence equals Yes
+
+  label default_can_forward
+  definition cannotForwardToSubjectOfComplaint equals No
+```
