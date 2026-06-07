@@ -1,163 +1,3 @@
-## Article 14. Review of proposals (remarks) of citizens
-
-```catala
-declaration scope Article14ProposalReview:
-  input author content AppealAuthor
-  input appealType content AppealType
-  input isHeroOfUSSR content YesNo
-  input isHeroOfSocialistLabor content YesNo
-  input isWarDisabled content YesNo
-  output reviewRequired content YesNo
-  output mustBeReviewedByFirstManager content YesNo
-  output notificationRequired content YesNo
-
-scope Article14ProposalReview:
-  label review_required_exception
-    exception default_no_review_required
-
-  definition reviewRequired under condition
-    appealType = Proposal
-    consequence equals Yes
-
-  label default_no_review_required definition reviewRequired equals Yes
-
-  label first_manager_exception
-    exception default_not_first_manager
-
-  definition mustBeReviewedByFirstManager under condition
-    isHeroOfUSSR = Yes
-    or isHeroOfSocialistLabor = Yes
-    or isWarDisabled = Yes
-    consequence equals Yes
-
-  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
-
-  label notification_required definition notificationRequired equals Yes
-```
-
-## Article 15. Review of applications (petitions)
-
-```catala
-declaration scope Article15ApplicationReview:
-  input author content AppealAuthor
-  input appealType content AppealType
-  input isHeroOfUSSR content YesNo
-  input isHeroOfSocialistLabor content YesNo
-  input isWarDisabled content YesNo
-  input objectionSustained content YesNo
-  output reviewRequired content YesNo
-  output mustBeReviewedByFirstManager content YesNo
-  output objectiveReviewRequired content YesNo
-  output responseByReceivingAuthority content YesNo
-  output refusalMustBeMotivated content YesNo
-  output refusalMustReferenceLaw content YesNo
-
-scope Article15ApplicationReview:
-  label review_required_exception
-    exception default_no_review_required
-
-  definition reviewRequired under condition
-    appealType = Application
-    consequence equals Yes
-
-  label default_no_review_required definition reviewRequired equals Yes
-
-  label first_manager_exception
-    exception default_not_first_manager
-
-  definition mustBeReviewedByFirstManager under condition
-    isHeroOfUSSR = Yes
-    or isHeroOfSocialistLabor = Yes
-    or isWarDisabled = Yes
-    consequence equals Yes
-
-  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
-
-  label objective_review definition objectiveReviewRequired equals Yes
-
-  label response_by_authority definition responseByReceivingAuthority equals Yes
-
-  label refusal_motivated_exception
-    exception default_not_motivated
-
-  definition refusalMustBeMotivated under condition
-    objectionSustained = No
-    consequence equals Yes
-
-  label default_not_motivated definition refusalMustBeMotivated equals No
-
-  label refusal_law_reference definition refusalMustReferenceLaw equals Yes
-```
-
-## Article 16. Review of citizens' complaints
-
-```catala
-declaration scope Article16ComplaintReview:
-  input author content AppealAuthor
-  input appealType content AppealType
-  input isAppealable content YesNo
-  input hasHigherAuthority content YesNo
-  output isSubmittedToHigherAuthority content YesNo
-  output courtAppealRightPreserved content YesNo
-  output mustBeReviewedByFirstManager content YesNo
-  output complaintByAuthorizedPerson content YesNo
-  output complaintByLegalRepForMinor content YesNo
-  output complaintByLegalRepForIncapacitated content YesNo
-  output previousDecisionsAttached content YesNo
-
-scope Article16ComplaintReview:
-  label submitted_to_higher_exception
-    exception default_direct_to_court
-
-  definition isSubmittedToHigherAuthority under condition
-    appealType = Complaint and hasHigherAuthority = Yes
-    consequence equals Yes
-
-  label default_direct_to_court definition isSubmittedToHigherAuthority equals No
-
-  label court_appeal_preserved definition courtAppealRightPreserved equals Yes
-
-  label first_manager_exception
-    exception default_not_first_manager
-
-  definition mustBeReviewedByFirstManager under condition
-    author.category = HeroOfUSSR
-    or author.category = HeroOfSocialistLabor
-    or author.category = WarDisabled
-    consequence equals Yes
-
-  label default_not_first_manager definition mustBeReviewedByFirstManager equals No
-
-  label authorized_person_exception
-    exception default_not_authorized
-
-  definition complaintByAuthorizedPerson under condition
-    not (author.category = None)
-    consequence equals Yes
-
-  label default_not_authorized definition complaintByAuthorizedPerson equals No
-
-  label legal_rep_minor_exception
-    exception default_not_legal_rep_minor
-
-  definition complaintByLegalRepForMinor under condition
-    author.category = Minor
-    consequence equals Yes
-
-  label default_not_legal_rep_minor definition complaintByLegalRepForMinor equals No
-
-  label legal_rep_incapacitated_exception
-    exception default_not_legal_rep_incapacitated
-
-  definition complaintByLegalRepForIncapacitated under condition
-    author.category = DeclaredIncapacitated
-    consequence equals Yes
-
-  label default_not_legal_rep_incapacitated definition complaintByLegalRepForIncapacitated equals No
-
-  label previous_decisions definition previousDecisionsAttached equals Yes
-```
-
 ## Article 17. Deadline for filing a complaint
 
 ```catala
@@ -166,6 +6,7 @@ declaration scope Article17ComplaintDeadline:
   input citizenInformedDate content integer
   input complaintFiledDate content integer
   input oneYearPassed content YesNo
+  input hasRespectableReason content YesNo
   output withinOneMonthOfInforming content YesNo
   output withinOneYearOfDecision content YesNo
   output deadlineMissed content YesNo
@@ -198,20 +39,23 @@ scope Article17ComplaintDeadline:
 
   definition deadlineMissed under condition
     oneYearPassed = Yes
+    or withinOneMonthOfInforming = No
     consequence equals Yes
 
   label default_deadline_ok definition deadlineMissed equals No
 
-  label renewable_exception
-    exception default_not_renewable
+  definition deadlineMissedForRespectableReason equals hasRespectableReason
+
+  label renewal_exception
+    exception default_no_renewal
 
   definition deadlineCanBeRenewed under condition
-    deadlineMissedForRespectableReason = Yes
+    deadlineMissed = Yes and deadlineMissedForRespectableReason = Yes
     consequence equals Yes
 
-  label default_not_renewable definition deadlineCanBeRenewed equals No
+  label default_no_renewal definition deadlineCanBeRenewed equals No
 
-  label rejected_as_late_exception
+  label rejected_late_exception
     exception default_not_rejected
 
   definition complaintRejectedAsLate under condition
@@ -220,5 +64,5 @@ scope Article17ComplaintDeadline:
 
   label default_not_rejected definition complaintRejectedAsLate equals No
 
-  label court_appeal definition courtAppealAllowed equals Yes
+  definition courtAppealAllowed equals Yes # Always allowed by Law
 ```

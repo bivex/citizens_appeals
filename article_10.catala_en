@@ -55,7 +55,7 @@ scope Article10Confidentiality:
     exception default_no_request
 
   definition authorRequestedConfidentiality under condition
-    author.lastName  != 0
+    author.lastName  != 0 # Simplified check: if name is known, we can request
     consequence equals Yes
 
   label default_no_request definition authorRequestedConfidentiality equals No
@@ -79,4 +79,6 @@ scope Article10Confidentiality:
     consequence equals Yes
 
   label default_disclosure_ok definition disclosureProhibited equals No
+
+  definition appealConfidential equals disclosureProhibited
 ```

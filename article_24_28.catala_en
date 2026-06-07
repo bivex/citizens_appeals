@@ -1,21 +1,20 @@
-## Article 24. Responsibility of officials for violation of
-##   legislation on citizens' appeals
+## Article 24. Responsibility of officials for violation of legislation
+##   on citizens' appeals
 
 ```catala
-declaration scope Article24Responsibility:
+declaration scope Article24OfficialResponsibility:
   input violationOccurred content YesNo
-  input legalResponsibilityType content LegalResponsibilityType
+  input responsibilityType content LegalResponsibilityType
   output civilResponsibilityApplies content YesNo
   output administrativeResponsibilityApplies content YesNo
   output criminalResponsibilityApplies content YesNo
 
-scope Article24Responsibility:
+scope Article24OfficialResponsibility:
   label civil_exception
     exception default_not_civil
 
   definition civilResponsibilityApplies under condition
-    violationOccurred = Yes
-    and legalResponsibilityType = Civil
+    violationOccurred = Yes and responsibilityType = Civil
     consequence equals Yes
 
   label default_not_civil definition civilResponsibilityApplies equals No
@@ -24,8 +23,7 @@ scope Article24Responsibility:
     exception default_not_administrative
 
   definition administrativeResponsibilityApplies under condition
-    violationOccurred = Yes
-    and legalResponsibilityType = Administrative
+    violationOccurred = Yes and responsibilityType = Administrative
     consequence equals Yes
 
   label default_not_administrative definition administrativeResponsibilityApplies equals No
@@ -34,8 +32,7 @@ scope Article24Responsibility:
     exception default_not_criminal
 
   definition criminalResponsibilityApplies under condition
-    violationOccurred = Yes
-    and legalResponsibilityType = Criminal
+    violationOccurred = Yes and responsibilityType = Criminal
     consequence equals Yes
 
   label default_not_criminal definition criminalResponsibilityApplies equals No
@@ -50,6 +47,7 @@ declaration scope Article25Compensation:
   input unlawfulDecisionMade content YesNo
   input materialDamagesIncurred content YesNo
   input travelExpensesIncurred content YesNo
+  input lostWagesIncurredInput content YesNo
   output lostWagesIncurred content YesNo
   output compensationMandatory content YesNo
   output travelExpensesCompensable content YesNo
@@ -57,6 +55,8 @@ declaration scope Article25Compensation:
   output moralDamagesCompensable content YesNo
 
 scope Article25Compensation:
+  definition lostWagesIncurred equals lostWagesIncurredInput
+
   label compensation_mandatory_exception
     exception default_not_mandatory
 
@@ -95,10 +95,13 @@ declaration scope Article26CitizenResponsibility:
   input appealContainsSlander content YesNo
   input appealContainsInsults content YesNo
   input appealDiscreditsAuthorities content YesNo
+  input incitementOfHatredInput content YesNo
   output appealIncitementOfHatred content YesNo
   output unlawfulResponsibilityApplies content YesNo
 
 scope Article26CitizenResponsibility:
+  definition appealIncitementOfHatred equals incitementOfHatredInput
+
   label unlawful_responsibility_exception
     exception default_not_unlawful
 
@@ -112,36 +115,31 @@ scope Article26CitizenResponsibility:
   label default_not_unlawful definition unlawfulResponsibilityApplies equals No
 ```
 
-## Article 27. Compensation for costs of verifying appeals
-##   containing knowingly false information
+## Article 27. Compensation for costs of verifying appeals containing
+##   knowingly false information
 
 ```catala
-declaration scope Article27CostCompensation:
-  input appealContainsKnowinglyFalseInfo content YesNo
+declaration scope Article27CostsRecovery:
+  input containsKnowinglyFalseInfo content YesNo
   output verificationCostsRecoverable content YesNo
 
-scope Article27CostCompensation:
-  label costs_recoverable_exception
+scope Article27CostsRecovery:
+  label recovery_exception
     exception default_not_recoverable
 
   definition verificationCostsRecoverable under condition
-    appealContainsKnowinglyFalseInfo = Yes
+    containsKnowinglyFalseInfo = Yes
     consequence equals Yes
 
   label default_not_recoverable definition verificationCostsRecoverable equals No
 ```
 
-## Article 28. Control over compliance with legislation
-##   on citizens' appeals
+## Article 28. Control over compliance with legislation on citizens' appeals
 
 ```catala
 declaration scope Article28Control:
-  input controlByParliament content YesNo
-  input controlByPresident content YesNo
-  input controlByCabinet content YesNo
-  input controlByOmbudsman content YesNo
-  input controlByLocalAuthorities content YesNo
-  input controlByMinistries content YesNo
+  input verkhovnaRadaControl content YesNo
+  input ombudsmanControl content YesNo
   output controlSystemInPlace content YesNo
 
 scope Article28Control:
@@ -149,12 +147,7 @@ scope Article28Control:
     exception default_not_in_place
 
   definition controlSystemInPlace under condition
-    controlByParliament = Yes
-    or controlByPresident = Yes
-    or controlByCabinet = Yes
-    or controlByOmbudsman = Yes
-    or controlByLocalAuthorities = Yes
-    or controlByMinistries = Yes
+    verkhovnaRadaControl = Yes or ombudsmanControl = Yes
     consequence equals Yes
 
   label default_not_in_place definition controlSystemInPlace equals No
