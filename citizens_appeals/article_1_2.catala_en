@@ -21,10 +21,10 @@ scope Article1AppealRight:
     author.category = Citizen
     consequence equals Yes
 
-  label military_no_right exception has_appeal_right_default
+  label military_right exception has_appeal_right_default
   definition hasAppealRight under condition
-    isMilitaryOrPolice = Yes and concernsOfficialDuties = Yes
-    consequence equals No
+    isMilitaryOrPolice = Yes and concernsOfficialDuties = No
+    consequence equals Yes
 
   label foreigner_right exception has_appeal_right_default
   definition hasAppealRight under condition
@@ -38,4 +38,27 @@ scope Article1AppealRight:
   definition appealMustBeAccepted under condition
     hasAppealRight = Yes
     consequence equals Yes
+```
+
+## Article 2. Legislation on citizens' appeals
+
+```catala
+declaration scope Article2Exceptions:
+  input isDepositGuaranteeFund content YesNo
+  input isMilitaryOmbudsman content YesNo
+  output lawApplies content YesNo
+
+scope Article2Exceptions:
+  label law_applies_default
+  definition lawApplies equals Yes
+
+  label deposit_fund_exception exception law_applies_default
+  definition lawApplies under condition
+    isDepositGuaranteeFund = Yes
+    consequence equals No
+
+  label military_ombudsman_exception exception law_applies_default
+  definition lawApplies under condition
+    isMilitaryOmbudsman = Yes
+    consequence equals No
 ```

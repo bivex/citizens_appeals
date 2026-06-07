@@ -40,11 +40,8 @@ scope Article8NonReviewableAppeals:
 
   label default_expired definition isExpiredNotReviewable equals No
 
-  label incapacitated_not_reviewable exception default_incapacitated
-  definition isIncapacitatedNotReviewable under condition
-    applicantDeclaredIncapacitated = Yes
-    consequence equals Yes
-
+  # Note: The provision restricting incapacitated persons was declared unconstitutional
+  # by the Constitutional Court Decision No. 8-r/2018. Thus, it's always No.
   label default_incapacitated definition isIncapacitatedNotReviewable equals No
 
   label not_reviewable_exception
