@@ -1,0 +1,35 @@
+## Article 29. International Transfer of Personal Data
+
+```catala
+declaration scope InternationalTransfer:
+  input destinationCountryEnsuresProtection content YesNo
+  input dataSubjectConsent content YesNo
+  input isNecessaryForContract content YesNo
+  input isNecessaryForVitalInterests content YesNo
+  input isNecessaryForPublicInterest content YesNo
+  input isWartimeTelemedicine content YesNo
+  output transferAllowed content YesNo
+
+scope InternationalTransfer:
+  label default_prohibited definition transferAllowed equals No
+  
+  label allowed_safe_country exception default_prohibited
+  definition transferAllowed under condition
+    destinationCountryEnsuresProtection = Yes
+    consequence equals Yes
+
+  # Exceptions from Part 4
+  label allowed_exceptions exception default_prohibited
+  definition transferAllowed under condition
+    dataSubjectConsent = Yes
+    or isNecessaryForContract = Yes
+    or isNecessaryForVitalInterests = Yes
+    or isNecessaryForPublicInterest = Yes
+    consequence equals Yes
+
+  # Wartime telemedicine exception (Article 30, Part 2)
+  label wartime_telemedicine exception default_prohibited
+  definition transferAllowed under condition
+    isWartimeTelemedicine = Yes
+    consequence equals Yes
+```

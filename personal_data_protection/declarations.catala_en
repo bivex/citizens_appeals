@@ -1,0 +1,31 @@
+```catala
+declaration enumeration YesNo:
+  -- No
+  -- Yes
+
+declaration enumeration ProcessingGoal:
+  -- PersonalOrHousehold
+  -- JournalisticOrCreative
+  -- ArchivalRepressiveOrgans
+  -- Commercial
+  -- Employment
+  -- Healthcare
+  -- MilitaryRegistration
+  -- OperationalSearchOrCounterintelligence
+  -- LegalClaim
+  -- Other
+
+declaration structure PersonalData:
+  data isAutomated content YesNo
+  data isInFilingSystem content YesNo
+  data isSensitive content YesNo # race, religion, health, biometrics, etc. (Art 7)
+  data isPubliclyAvailable content YesNo
+  data processingGoal content ProcessingGoal
+
+declaration structure ProcessingContext:
+  data dataSubjectConsent content YesNo
+  data legalObligation content YesNo
+  data contractExecution content YesNo
+  data vitalInterests content YesNo
+  data legitimateInterests content YesNo
+```

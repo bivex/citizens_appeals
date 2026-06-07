@@ -1,0 +1,23 @@
+## Article 15. Deletion or Destruction of Personal Data
+
+```catala
+declaration scope DeletionRules:
+  input retentionPeriodExpired content YesNo
+  input legalRelationshipTerminated content YesNo
+  input ombudsmanOrderIssued content YesNo
+  input courtOrderIssued content YesNo
+  input collectedIllegally content YesNo
+  output mustBeDeleted content YesNo
+
+scope DeletionRules:
+  label default_keep definition mustBeDeleted equals No
+  
+  label deletion_required exception default_keep
+  definition mustBeDeleted under condition
+    retentionPeriodExpired = Yes
+    or legalRelationshipTerminated = Yes
+    or ombudsmanOrderIssued = Yes
+    or courtOrderIssued = Yes
+    or collectedIllegally = Yes
+    consequence equals Yes
+```

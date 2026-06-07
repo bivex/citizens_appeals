@@ -1,0 +1,42 @@
+## Article 11. Grounds for Processing Personal Data
+## Article 7. Special Requirements for Processing (Sensitive Data)
+
+```catala
+declaration scope ProcessingGrounds:
+  input pData content PersonalData
+  input pContext content ProcessingContext
+  output processingAllowed content YesNo
+
+scope ProcessingGrounds:
+  label default_prohibited definition processingAllowed equals No
+  
+  # Standard grounds (Article 11)
+  label standard_grounds exception default_prohibited
+  definition processingAllowed under condition
+    pData.isSensitive = No
+    and (pContext.dataSubjectConsent = Yes
+         or pContext.legalObligation = Yes
+         or pContext.contractExecution = Yes
+         or pContext.vitalInterests = Yes
+         or pContext.legitimateInterests = Yes)
+    consequence equals Yes
+
+  # Sensitive data grounds (Article 7)
+  label sensitive_prohibited exception standard_grounds
+  definition processingAllowed under condition
+    pData.isSensitive = Yes
+    consequence equals No
+    
+  label sensitive_allowed exception sensitive_prohibited
+  definition processingAllowed under condition
+    pData.isSensitive = Yes
+    and (pContext.dataSubjectConsent = Yes
+         or pData.processingGoal = Employment
+         or pContext.vitalInterests = Yes
+         or pData.processingGoal = LegalClaim
+         or pData.processingGoal = Healthcare
+         or pData.processingGoal = MilitaryRegistration
+         or pData.processingGoal = OperationalSearchOrCounterintelligence
+         or pData.isPubliclyAvailable = Yes)
+    consequence equals Yes
+```

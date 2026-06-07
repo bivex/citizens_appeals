@@ -1,0 +1,23 @@
+## Article 16 & 17. Access to Personal Data
+
+```catala
+declaration scope AccessRequests:
+  input isRequestByDataSubject content YesNo
+  input requestProcessingDays content integer
+  output responseDeadlineDays content integer
+  output resolutionDeadlineDays content integer
+  output isFreeOfCharge content YesNo
+
+scope AccessRequests:
+  # Article 16, Part 5
+  definition responseDeadlineDays equals 10
+  definition resolutionDeadlineDays equals 30
+  
+  # Article 19, Part 1
+  label default_paid definition isFreeOfCharge equals No
+  
+  label free_for_subject exception default_paid
+  definition isFreeOfCharge under condition
+    isRequestByDataSubject = Yes
+    consequence equals Yes
+```

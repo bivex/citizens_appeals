@@ -1,0 +1,30 @@
+## Article 1 & 25. Scope and Exceptions
+
+```catala
+declaration scope LawScope:
+  input pData content PersonalData
+  output lawApplies content YesNo
+
+scope LawScope:
+  label default_applies definition lawApplies equals No
+  
+  label automation_rule exception default_applies
+  definition lawApplies under condition
+    pData.isAutomated = Yes or pData.isInFilingSystem = Yes
+    consequence equals Yes
+
+  label personal_use_exception exception automation_rule
+  definition lawApplies under condition
+    pData.processingGoal = PersonalOrHousehold
+    consequence equals No
+
+  label journalistic_exception exception automation_rule
+  definition lawApplies under condition
+    pData.processingGoal = JournalisticOrCreative
+    consequence equals No
+
+  label archival_exception exception automation_rule
+  definition lawApplies under condition
+    pData.processingGoal = ArchivalRepressiveOrgans
+    consequence equals No
+```
