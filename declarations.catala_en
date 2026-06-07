@@ -56,10 +56,41 @@ declaration enumeration LegalResponsibilityType:
   -- Administrative
   -- Criminal
 
+declaration enumeration KUPAPViolationType:
+  -- NonDisclosureRequiredByLaw
+  -- PublicInformationViolation
+  -- ArchiveInformationViolation
+  -- ProhibitedAccessRestriction
+  -- LawyerRequestViolation
+  -- CourtDecisionAccessViolation
+  -- CitizensAppealViolation
+  -- EIARegistryViolation
+  -- RehabilitationCommissionViolation
+  -- ExtractiveIndustriesViolation
+  -- PublicFundsTransparencyViolation
+  -- Article173_2
+  -- Article173_6
+  -- CorruptionRelated
+  -- Article51
+  -- Article212_15
+  -- Article212_21
+  -- Article204_1
+  -- Article204_2
+  -- Article130
+  -- Article164_14_p3_6
+  -- Article188_19_p1_4
+  -- Article210
+  -- Article210_1
+  -- OtherKUPAP
+
+declaration enumeration Jurisdiction:
+  -- AdministrativeBody
+  -- Court
+
 declaration structure AppealAuthor:
   data category content ApplicantCategory
   data signed content YesNo
-  data submissionDate content integer
+  data submissionDate content date
   data lastName content integer
   data firstName content integer
   data residence content integer
@@ -74,5 +105,5 @@ declaration structure ComplaintSubject:
 
 declaration structure EvidenceDocument:
   data hasPreviousDecisions content YesNo
-  data documentDate content integer
+  data documentDate content date
 ```

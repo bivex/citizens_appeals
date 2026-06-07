@@ -1,0 +1,127 @@
+## KUPAP Article 212-3. Violation of the right to information and the right to appeal
+
+```catala
+declaration scope Article212_3KUPAP:
+  input violationType content KUPAPViolationType
+  input isRepeatedWithinYear content YesNo
+  output fineMinTaxFreeMinimums content integer
+  output fineMaxTaxFreeMinimums content integer
+  output communityServiceHoursMin content integer
+  output communityServiceHoursMax content integer
+
+scope Article212_3KUPAP:
+  # General rule for parts 1, 2, 3, 5, 6, 7, 8, 10
+  label base_fine_25_50
+  definition fineMinTaxFreeMinimums equals 25
+  definition fineMaxTaxFreeMinimums equals 50
+
+  label fine_for_type_1_3_5_8 exception base_fine_25_50
+  definition fineMinTaxFreeMinimums under condition
+    violationType = NonDisclosureRequiredByLaw
+    or violationType = PublicInformationViolation
+    or violationType = ArchiveInformationViolation
+    or violationType = LawyerRequestViolation
+    or violationType = CourtDecisionAccessViolation
+    or violationType = CitizensAppealViolation
+    or violationType = EIARegistryViolation
+    or violationType = RehabilitationCommissionViolation
+    consequence equals 25
+
+  # Part 4: Prohibited access restriction
+  label fine_part_4 exception base_fine_25_50
+  definition fineMinTaxFreeMinimums under condition
+    violationType = ProhibitedAccessRestriction
+    consequence equals 60
+  
+  definition fineMaxTaxFreeMinimums under condition
+    violationType = ProhibitedAccessRestriction
+    consequence equals 80
+
+  # Part 11: Extractive industries
+  label fine_part_11 exception base_fine_25_50
+  definition fineMinTaxFreeMinimums under condition
+    violationType = ExtractiveIndustriesViolation
+    consequence equals 20
+  
+  definition fineMaxTaxFreeMinimums under condition
+    violationType = ExtractiveIndustriesViolation
+    consequence equals 60
+
+  # Part 12: Public funds transparency
+  label fine_part_12 exception base_fine_25_50
+  definition fineMinTaxFreeMinimums under condition
+    violationType = PublicFundsTransparencyViolation
+    consequence equals 50
+  
+  definition fineMaxTaxFreeMinimums under condition
+    violationType = PublicFundsTransparencyViolation
+    consequence equals 70
+
+  # Part 9: Repeated violation (parts 1-8)
+  label repeated_violation_1_8 exception base_fine_25_50
+  definition fineMinTaxFreeMinimums under condition
+    isRepeatedWithinYear = Yes and (
+      violationType = NonDisclosureRequiredByLaw
+      or violationType = PublicInformationViolation
+      or violationType = ArchiveInformationViolation
+      or violationType = ProhibitedAccessRestriction
+      or violationType = LawyerRequestViolation
+      or violationType = CourtDecisionAccessViolation
+      or violationType = CitizensAppealViolation
+      or violationType = EIARegistryViolation
+    )
+    consequence equals 60
+
+  definition fineMaxTaxFreeMinimums under condition
+    isRepeatedWithinYear = Yes and (
+      violationType = NonDisclosureRequiredByLaw
+      or violationType = PublicInformationViolation
+      or violationType = ArchiveInformationViolation
+      or violationType = ProhibitedAccessRestriction
+      or violationType = LawyerRequestViolation
+      or violationType = CourtDecisionAccessViolation
+      or violationType = CitizensAppealViolation
+      or violationType = EIARegistryViolation
+    )
+    consequence equals 80
+
+  definition communityServiceHoursMin under condition
+    isRepeatedWithinYear = Yes and (
+      violationType = NonDisclosureRequiredByLaw
+      or violationType = PublicInformationViolation
+      or violationType = ArchiveInformationViolation
+      or violationType = ProhibitedAccessRestriction
+      or violationType = LawyerRequestViolation
+      or violationType = CourtDecisionAccessViolation
+      or violationType = CitizensAppealViolation
+      or violationType = EIARegistryViolation
+    )
+    consequence equals 20
+
+  definition communityServiceHoursMax under condition
+    isRepeatedWithinYear = Yes and (
+      violationType = NonDisclosureRequiredByLaw
+      or violationType = PublicInformationViolation
+      or violationType = ArchiveInformationViolation
+      or violationType = ProhibitedAccessRestriction
+      or violationType = LawyerRequestViolation
+      or violationType = CourtDecisionAccessViolation
+      or violationType = CitizensAppealViolation
+      or violationType = EIARegistryViolation
+    )
+    consequence equals 30
+
+  # Part 13: Repeated violation (part 12)
+  label repeated_violation_12 exception fine_part_12
+  definition fineMinTaxFreeMinimums under condition
+    isRepeatedWithinYear = Yes and violationType = PublicFundsTransparencyViolation
+    consequence equals 70
+
+  definition fineMaxTaxFreeMinimums under condition
+    isRepeatedWithinYear = Yes and violationType = PublicFundsTransparencyViolation
+    consequence equals 100
+
+  # Default community service
+  definition communityServiceHoursMin equals 0
+  definition communityServiceHoursMax equals 0
+```

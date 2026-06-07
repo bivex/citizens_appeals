@@ -1,0 +1,170 @@
+## KUPAP Article 38. Statutes of limitations for administrative penalties
+
+```catala
+declaration scope Article38KUPAP:
+  input violationType content KUPAPViolationType
+  input offenseDate content date
+  input detectionDate content date
+  input isContinuous content YesNo
+  input jurisdiction content Jurisdiction
+  input isSpecialPeriod content YesNo
+  input criminalCaseClosureDate content date
+  input impositionDate content date
+  output canImposePenalty content YesNo
+
+scope Article38KUPAP:
+  # Base limitation: 2 months from offense or detection
+  label base_limitation
+  definition canImposePenalty equals Yes
+  
+  exception base_limitation
+  definition canImposePenalty under condition
+    isContinuous = No and impositionDate > offenseDate + 60 day
+    consequence equals No
+
+  exception base_limitation
+  definition canImposePenalty under condition
+    isContinuous = Yes and impositionDate > detectionDate + 60 day
+    consequence equals No
+
+  # Court jurisdiction: 3 months
+  label court_jurisdiction exception base_limitation
+  definition canImposePenalty under condition
+    jurisdiction = Court
+    consequence equals Yes
+
+  exception court_jurisdiction
+  definition canImposePenalty under condition
+    jurisdiction = Court and isContinuous = No and impositionDate > offenseDate + 90 day
+    consequence equals No
+
+  exception court_jurisdiction
+  definition canImposePenalty under condition
+    jurisdiction = Court and isContinuous = Yes and impositionDate > detectionDate + 90 day
+    consequence equals No
+
+  # Articles 173-2, 173-6: 6 months from offense
+  label art_173_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = Article173_2 or violationType = Article173_6
+    consequence equals Yes
+  
+  exception art_173_exception
+  definition canImposePenalty under condition
+    (violationType = Article173_2 or violationType = Article173_6)
+    and impositionDate > offenseDate + 180 day
+    consequence equals No
+
+  # Corruption and Arts 51, 212-15, 212-21: 6 months from detection, max 2 years from offense
+  label corruption_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = CorruptionRelated or violationType = Article51
+    or violationType = Article212_15 or violationType = Article212_21
+    consequence equals Yes
+  
+  exception corruption_exception
+  definition canImposePenalty under condition
+    (violationType = CorruptionRelated or violationType = Article51
+     or violationType = Article212_15 or violationType = Article212_21)
+    and (impositionDate > detectionDate + 180 day or impositionDate > offenseDate + 730 day)
+    consequence equals No
+
+  # Articles 204-1, 204-2: 3 months from detection, max 1 year from offense
+  label art_204_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = Article204_1 or violationType = Article204_2
+    consequence equals Yes
+
+  exception art_204_exception
+  definition canImposePenalty under condition
+    (violationType = Article204_1 or violationType = Article204_2)
+    and (impositionDate > detectionDate + 90 day or impositionDate > offenseDate + 365 day)
+    consequence equals No
+
+  # Article 130: 1 year from offense
+  label art_130_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = Article130
+    consequence equals Yes
+
+  exception art_130_exception
+  definition canImposePenalty under condition
+    violationType = Article130 and impositionDate > offenseDate + 365 day
+    consequence equals No
+
+  # Article 164-14 parts 3-6: 1 year from detection, max 2 years from offense
+  label art_164_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = Article164_14_p3_6
+    consequence equals Yes
+
+  exception art_164_exception
+  definition canImposePenalty under condition
+    violationType = Article164_14_p3_6
+    and (impositionDate > detectionDate + 365 day or impositionDate > offenseDate + 730 day)
+    consequence equals No
+
+  # Article 188-19 parts 1-4: 1 year from offense
+  label art_188_exception exception base_limitation
+  definition canImposePenalty under condition
+    violationType = Article188_19_p1_4
+    consequence equals Yes
+
+  exception art_188_exception
+  definition canImposePenalty under condition
+    violationType = Article188_19_p1_4 and impositionDate > offenseDate + 365 day
+    consequence equals No
+
+  # Article 210, 210-1 (Special Period): 3 months from detection, max 1 year from offense
+  label art_210_special exception base_limitation
+  definition canImposePenalty under condition
+    isSpecialPeriod = Yes and (violationType = Article210 or violationType = Article210_1)
+    consequence equals Yes
+
+  exception art_210_special
+  definition canImposePenalty under condition
+    isSpecialPeriod = Yes and (violationType = Article210 or violationType = Article210_1)
+    and (impositionDate > detectionDate + 90 day or impositionDate > offenseDate + 365 day)
+    consequence equals No
+
+  # Article 212-3 parts 12, 13 (Public funds): 1 year from offense
+  label art_212_3_p12_13 exception base_limitation
+  definition canImposePenalty under condition
+    violationType = PublicFundsTransparencyViolation
+    consequence equals Yes
+
+  exception art_212_3_p12_13
+  definition canImposePenalty under condition
+    violationType = PublicFundsTransparencyViolation
+    and impositionDate > offenseDate + 365 day
+    consequence equals No
+
+  # Criminal case closure: 3 months from closure
+  label criminal_closure exception base_limitation
+  definition canImposePenalty under condition
+    criminalCaseClosureDate != |0001-01-01|
+    consequence equals Yes
+  
+  exception criminal_closure
+  definition canImposePenalty under condition
+    criminalCaseClosureDate != |0001-01-01|
+    and impositionDate > criminalCaseClosureDate + 90 day
+    consequence equals No
+```
+
+## KUPAP Article 39. Period after which a person is considered not to have been subjected to an administrative penalty
+
+```catala
+declaration scope Article39KUPAP:
+  input penaltyExecutionEndDate content date
+  input newOffenseDate content date
+  output isConsideredSubjectedToPenalty content YesNo
+
+scope Article39KUPAP:
+  definition isConsideredSubjectedToPenalty equals Yes
+  
+  exception
+  definition isConsideredSubjectedToPenalty under condition
+    newOffenseDate > penaltyExecutionEndDate + 365 day
+    consequence equals No
+```
