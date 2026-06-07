@@ -137,8 +137,23 @@ declaration scope Article28Control:
   input controlByMinistries content YesNo
   output controlSystemInPlace content YesNo
 
+```
+
+## Article 28. Control over compliance with legislation
+##   on citizens' appeals
+
+```catala
+declaration scope Article28Control:
+  input controlByParliament content YesNo
+  input controlByPresident content YesNo
+  input controlByCabinet content YesNo
+  input controlByOmbudsman content YesNo
+  input controlByLocalAuthorities content YesNo
+  input controlByMinistries content YesNo
+  output controlSystemInPlace content YesNo
+
 scope Article28Control:
-  label control_system_exception default_not_in_place
+  label control_system_exception exception default_not_in_place
   definition controlSystemInPlace under condition
     controlByParliament = Yes
     or controlByPresident = Yes
