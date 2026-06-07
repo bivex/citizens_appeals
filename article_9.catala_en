@@ -1,0 +1,42 @@
+## Article 9. Prohibition of persecution of citizens for submitting appeals
+##   and inadmissibility of forcing them to submit appeals
+
+```catala
+declaration scope Article9ProhibitionOfPersecution:
+  input author content AppealAuthor
+  input appealType content AppealType
+  input containsCriticism content YesNo
+  input persecutionOccurred content YesNo
+  input forcedToSubmit content YesNo
+  input forcedToSign content YesNo
+  input forcedToParticipate content YesNo
+  output persecutionProhibited content YesNo
+  output forcedSubmissionProhibited content YesNo
+  output forcedSigningProhibited content YesNo
+  output forcedParticipationProhibited content YesNo
+  output violationOccurred content YesNo
+
+scope Article9ProhibitionOfPersecution:
+  label persecution_prohibited
+  definition persecutionProhibited equals Yes
+
+  label forced_submission_prohibited
+  definition forcedSubmissionProhibited equals Yes
+
+  label forced_signing_prohibited
+  definition forcedSigningProhibited equals Yes
+
+  label forced_participation_prohibited
+  definition forcedParticipationProhibited equals Yes
+
+  label violation_occurred_exception default_no_violation
+  definition violationOccurred under condition
+    persecutionOccurred = Yes
+    or forcedToSubmit = Yes
+    or forcedToSign = Yes
+    or forcedToParticipate = Yes
+    consequence equals Yes
+
+  label default_no_violation
+  definition violationOccurred equals No
+```

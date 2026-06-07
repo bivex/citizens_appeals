@@ -1,0 +1,153 @@
+## Article 24. Responsibility of officials for violation of
+##   legislation on citizens' appeals
+
+```catala
+declaration scope Article24Responsibility:
+  input violationOccurred content YesNo
+  input legalResponsibilityType content LegalResponsibilityType
+  output civilResponsibilityApplies content YesNo
+  output administrativeResponsibilityApplies content YesNo
+  output criminalResponsibilityApplies content YesNo
+
+scope Article24Responsibility:
+  label civil_exception default_not_civil
+  definition civilResponsibilityApplies under condition
+    violationOccurred = Yes
+    and legalResponsibilityType = Civil
+    consequence equals Yes
+
+  label default_not_civil
+  definition civilResponsibilityApplies equals No
+
+  label administrative_exception default_not_administrative
+  definition administrativeResponsibilityApplies under condition
+    violationOccurred = Yes
+    and legalResponsibilityType = Administrative
+    consequence equals Yes
+
+  label default_not_administrative
+  definition administrativeResponsibilityApplies equals No
+
+  label criminal_exception default_not_criminal
+  definition criminalResponsibilityApplies under condition
+    violationOccurred = Yes
+    and legalResponsibilityType = Criminal
+    consequence equals Yes
+
+  label default_not_criminal
+  definition criminalResponsibilityApplies equals No
+```
+
+## Article 25. Compensation of damages to a citizen in connection with
+##   violation of requirements of this Law when reviewing his complaint
+
+```catala
+declaration scope Article25Compensation:
+  input complaintSatisfied content YesNo
+  input unlawfulDecisionMade content YesNo
+  input materialDamagesIncurred content YesNo
+  input travelExpensesIncurred content YesNo
+  output lostWagesIncurred content YesNo
+  output compensationMandatory content YesNo
+  output travelExpensesCompensable content YesNo
+  output lostWagesCompensable content YesNo
+  output moralDamagesCompensable content YesNo
+
+scope Article25Compensation:
+  label compensation_mandatory_exception default_not_mandatory
+  definition compensationMandatory under condition
+    complaintSatisfied = Yes and unlawfulDecisionMade = Yes
+    consequence equals Yes
+
+  label default_not_mandatory
+  definition compensationMandatory equals No
+
+  label travel_expenses_exception default_not_travel
+  definition travelExpensesCompensable under condition
+    travelExpensesIncurred = Yes
+    consequence equals Yes
+
+  label default_not_travel
+  definition travelExpensesCompensable equals No
+
+  label lost_wages_exception default_not_wages
+  definition lostWagesCompensable under condition
+    lostWagesIncurred = Yes
+    consequence equals Yes
+
+  label default_not_wages
+  definition lostWagesCompensable equals No
+
+  label moral_damages
+  definition moralDamagesCompensable equals Yes
+```
+
+## Article 26. Responsibility of citizens for submitting appeals
+##   of unlawful nature
+
+```catala
+declaration scope Article26CitizenResponsibility:
+  input appealContainsSlander content YesNo
+  input appealContainsInsults content YesNo
+  input appealDiscreditsAuthorities content YesNo
+  output appealIncitementOfHatred content YesNo
+  output unlawfulResponsibilityApplies content YesNo
+
+scope Article26CitizenResponsibility:
+  label unlawful_responsibility_exception default_not_unlawful
+  definition unlawfulResponsibilityApplies under condition
+    appealContainsSlander = Yes
+    or appealContainsInsults = Yes
+    or appealDiscreditsAuthorities = Yes
+    or appealIncitementOfHatred = Yes
+    consequence equals Yes
+
+  label default_not_unlawful
+  definition unlawfulResponsibilityApplies equals No
+```
+
+## Article 27. Compensation for costs of verifying appeals
+##   containing knowingly false information
+
+```catala
+declaration scope Article27CostCompensation:
+  input appealContainsKnowinglyFalseInfo content YesNo
+  output verificationCostsRecoverable content YesNo
+
+scope Article27CostCompensation:
+  label costs_recoverable_exception default_not_recoverable
+  definition verificationCostsRecoverable under condition
+    appealContainsKnowinglyFalseInfo = Yes
+    consequence equals Yes
+
+  label default_not_recoverable
+  definition verificationCostsRecoverable equals No
+```
+
+## Article 28. Control over compliance with legislation
+##   on citizens' appeals
+
+```catala
+declaration scope Article28Control:
+  input controlByParliament content YesNo
+  input controlByPresident content YesNo
+  input controlByCabinet content YesNo
+  input controlByOmbudsman content YesNo
+  input controlByLocalAuthorities content YesNo
+  input controlByMinistries content YesNo
+  output controlSystemInPlace content YesNo
+
+scope Article28Control:
+  label control_system_exception default_not_in_place
+  definition controlSystemInPlace under condition
+    controlByParliament = Yes
+    or controlByPresident = Yes
+    or controlByCabinet = Yes
+    or controlByOmbudsman = Yes
+    or controlByLocalAuthorities = Yes
+    or controlByMinistries = Yes
+    consequence equals Yes
+
+  label default_not_in_place
+  definition controlSystemInPlace equals No
+```

@@ -1,0 +1,95 @@
+## Article 21. Free of charge review of appeals
+
+```catala
+declaration scope Article21FreeOfCharge:
+  input appealType content AppealType
+  output reviewIsFree content YesNo
+  output noFeeCharged content YesNo
+
+scope Article21FreeOfCharge:
+  label review_free
+  definition reviewIsFree equals Yes
+
+  label no_fee
+  definition noFeeCharged equals Yes
+```
+
+## Article 22. Personal reception of citizens
+
+```catala
+declaration scope Article22PersonalReception:
+  input receptionScheduled content YesNo
+  input quarantineInEffect content YesNo
+  input receptionSuspended content YesNo
+  input oralAppealMade content YesNo
+  output personalReceptionRequired content YesNo
+  output receptionSchedulePublished content YesNo
+  output receptionCanBeSuspendedDuringQuarantine content YesNo
+  output oralAppealRegistered content YesNo
+  output oralAppealReviewedAsWritten content YesNo
+  output notificationOfResultsRequired content YesNo
+
+scope Article22PersonalReception:
+  label reception_required
+  definition personalReceptionRequired equals Yes
+
+  label schedule_published
+  definition receptionSchedulePublished equals Yes
+
+  label quarantine_exception default_not_quarantine
+  definition receptionCanBeSuspendedDuringQuarantine under condition
+    quarantineInEffect = Yes
+    consequence equals Yes
+
+  label default_not_quarantine
+  definition receptionCanBeSuspendedDuringQuarantine equals No
+
+  label oral_registered_exception default_not_oral
+  definition oralAppealRegistered under condition
+    oralAppealMade = Yes
+    consequence equals Yes
+
+  label default_not_oral
+  definition oralAppealRegistered equals No
+
+  label oral_reviewed_as_written
+  definition oralAppealReviewedAsWritten equals Yes
+
+  label notification_required
+  definition notificationOfResultsRequired equals Yes
+```
+
+## Article 23. Organization of reception of citizens by senior officials
+
+```catala
+declaration scope Article23SeniorOfficialsReception:
+  input addressee content AddresseeType
+  output presidentSetsOwnProcedure content YesNo
+  output parliamentChairSetsOwnProcedure content YesNo
+  output primeMinisterSetsOwnProcedure content YesNo
+
+scope Article23SeniorOfficialsReception:
+  label president_exception default_not_president
+  definition presidentSetsOwnProcedure under condition
+    addressee = President
+    consequence equals Yes
+
+  label default_not_president
+  definition presidentSetsOwnProcedure equals No
+
+  label parliament_exception default_not_parliament
+  definition parliamentChairSetsOwnProcedure under condition
+    addressee = Parliament
+    consequence equals Yes
+
+  label default_not_parliament
+  definition parliamentChairSetsOwnProcedure equals No
+
+  label pm_exception default_not_pm
+  definition primeMinisterSetsOwnProcedure under condition
+    addressee = Cabinet
+    consequence equals Yes
+
+  label default_not_pm
+  definition primeMinisterSetsOwnProcedure equals No
+```

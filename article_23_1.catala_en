@@ -1,0 +1,123 @@
+## Article 23-1. Electronic petition, procedure for its submission and review
+
+```catala
+declaration scope Article23_1ElectronicPetition:
+  input author content AppealAuthor
+  input addressee content AddresseeType
+  input petitionTextComplete content YesNo
+  input authorInfoComplete content YesNo
+  input startCollectionDate content date
+  input publicationDate content date
+  input endCollectionDate content date
+  input currentDate content date
+  output requiredSignatureCount content integer
+  output collectionDeadlineMonths content integer
+  output withinDeadline content YesNo
+  output sufficientSignatures content YesNo
+  output prohibitedContentPresent content YesNo
+  output callsForOverthrow content YesNo
+  output callsForTerritorialIntegrityViolation content YesNo
+  output propagandaOfWar content YesNo
+  output incitementOfViolence content YesNo
+  output incitementOfHatred content YesNo
+  output callsForTerrorism content YesNo
+  output publicationRequiredWithinTwoDays content YesNo
+  output collectionStartedOnPublicationDate content YesNo
+  output freeAccessRequired content YesNo
+  output electronicRegistrationRequired content YesNo
+  output noAutomaticSigningAllowed content YesNo
+  output dateTimeFixed content YesNo
+  output forwardedToRelevantAuthority content YesNo
+  output reviewStartsUponThresholdReached content YesNo
+  output reviewDeadlineDays content integer
+  output continuationForHearingsAllowed content YesNo
+  output procedureSetByRelevantAuthority content YesNo
+  output resultsPublished content YesNo
+  output responseToAuthorRequired content YesNo
+  output responseToNextWorkingDay content YesNo
+  output associationInformedOfResponse content YesNo
+  output proposalImplementationPossible content YesNo
+  output legislationMayBeDrafted content YesNo
+  output signatureInfoStoredThreeYears content YesNo
+
+scope Article23_1ElectronicPetition:
+  label president_signatures exception default_threshold
+  definition requiredSignatureCount under condition
+    addressee = President
+    consequence equals 25000
+
+  label parliament_signatures default_threshold
+  definition requiredSignatureCount under condition
+    addressee = Parliament
+    consequence equals 25000
+
+  label cabinet_signatures default_threshold
+  definition requiredSignatureCount under condition
+    addressee = Cabinet
+    consequence equals 25000
+
+  label local_council_signatures default_threshold
+  definition requiredSignatureCount under condition
+    addressee = LocalCouncil
+    consequence equals 0
+
+  label default_threshold
+  definition requiredSignatureCount equals 0
+
+  label collection_deadline
+  definition collectionDeadlineMonths equals 3
+
+  label within_deadline_exception default_not_within
+  definition withinDeadline under condition
+    currentDate <> Date.year_month_day 1970 1 1
+    consequence equals No
+
+  label default_not_within
+  definition withinDeadline equals No
+
+  label prohibited_exception default_not_prohibited
+  definition prohibitedContentPresent under condition
+    callsForOverthrow = Yes
+    or callsForTerritorialIntegrityViolation = Yes
+    or propagandaOfWar = Yes
+    or incitementOfViolence = Yes
+    or incitementOfHatred = Yes
+    or callsForTerrorism = Yes
+    consequence equals Yes
+
+  label default_not_prohibited
+  definition prohibitedContentPresent equals No
+
+  label free_access
+  definition freeAccessRequired equals Yes
+
+  label electronic_registration
+  definition electronicRegistrationRequired equals Yes
+
+  label no_automatic_signing
+  definition noAutomaticSigningAllowed equals Yes
+
+  label date_time_fixed
+  definition dateTimeFixed equals Yes
+
+  label review_deadline
+  definition reviewDeadlineDays equals 10
+
+  label results_published
+  definition resultsPublished equals Yes
+
+  label response_next_day
+  definition responseToNextWorkingDay equals Yes
+
+  label association_informed
+  definition associationInformedOfResponse equals Yes
+
+  label implementation_possible
+  definition proposalImplementationPossible equals Yes
+
+  label legislation_possible
+  definition legislationMayBeDrafted equals Yes
+
+  label three_years_storage
+  definition signatureInfoStoredThreeYears equals Yes
+```

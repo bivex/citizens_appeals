@@ -1,0 +1,109 @@
+## Article 11. Appeals to associations of citizens
+
+```catala
+declaration scope Article11AssociationAppeals:
+  input appealType content AppealType
+  input addressee content AddresseeType
+  input isStatutoryActivity content YesNo
+  input rightsViolatedByAssociation content YesNo
+  output reviewedByAssociation content YesNo
+  output reviewedUnderThisLaw content YesNo
+
+scope Article11AssociationAppeals:
+  label statutory_exception default_not_statutory
+  definition reviewedByAssociation under condition
+    addressee = AssociationOfCitizens
+    and isStatutoryActivity = Yes
+    and appealType <> Complaint
+    consequence equals Yes
+
+  label default_not_statutory
+  definition reviewedByAssociation equals No
+
+  label this_law_exception default_not_this_law
+  definition reviewedUnderThisLaw under condition
+    addressee = AssociationOfCitizens
+    and rightsViolatedByAssociation = Yes
+    consequence equals Yes
+
+  label default_not_this_law
+  definition reviewedUnderThisLaw equals No
+```
+
+## Article 12. Scope of application of this Law
+
+```catala
+declaration scope Article12Scope:
+  input appealType content AppealType
+  input isCriminalProcedure content YesNo
+  input isCivilProcedure content YesNo
+  input isLaborLaw content YesNo
+  input isCompetitionLaw content YesNo
+  input isAdministrativeCourt content YesNo
+  input isJudiciaryLaw content YesNo
+  input isCourtDecisionsAccess content YesNo
+  input isAntiCorruption content YesNo
+  input isEnforcement content YesNo
+  input isAdministrativeProcedure content YesNo
+  input isMilitaryOmbudsman content YesNo
+  input isDepositGuarantee content YesNo
+  output excludedFromScope content YesNo
+  output fallsUnderAdministrativeProcedure content YesNo
+  output fallsUnderMilitaryOmbudsman content YesNo
+
+scope Article12Scope:
+  label excluded_exception default_not_excluded
+  definition excludedFromScope under condition
+    isCriminalProcedure = Yes
+    or isCivilProcedure = Yes
+    or isLaborLaw = Yes
+    or isCompetitionLaw = Yes
+    or isAdministrativeCourt = Yes
+    or isJudiciaryLaw = Yes
+    or isCourtDecisionsAccess = Yes
+    or isAntiCorruption = Yes
+    or isEnforcement = Yes
+    or isDepositGuarantee = Yes
+    consequence equals Yes
+
+  label default_not_excluded
+  definition excludedFromScope equals No
+
+  label admin_proc_exception default_not_admin_proc
+  definition fallsUnderAdministrativeProcedure under condition
+    isAdministrativeProcedure = Yes
+    consequence equals Yes
+
+  label default_not_admin_proc
+  definition fallsUnderAdministrativeProcedure equals No
+
+  label military_ombudsman_exception default_not_military_ombudsman
+  definition fallsUnderMilitaryOmbudsman under condition
+    isMilitaryOmbudsman = Yes
+    consequence equals Yes
+
+  label default_not_military_ombudsman
+  definition fallsUnderMilitaryOmbudsman equals No
+```
+
+## Article 13. Record-keeping on citizens' appeals
+
+```catala
+declaration scope Article13RecordKeeping:
+  input appealSubmitted content YesNo
+  input recordEstablished content YesNo
+  output recordKeepingRequired content YesNo
+  output recordKeepingCompliant content YesNo
+
+scope Article13RecordKeeping:
+  label record_required
+  definition recordKeepingRequired equals Yes
+
+  label record_compliant_exception default_not_compliant
+  definition recordKeepingCompliant under condition
+    appealSubmitted = Yes and recordEstablished = Yes
+    consequence equals Yes
+
+  label default_not_compliant
+  definition recordKeepingCompliant equals No
+```

@@ -1,0 +1,13 @@
+## Article 6. Language of appeals and decisions and responses thereto
+```catala
+declaration scope Article6Language:
+  input appeal_content content string
+  input state_language content YesNo
+  output language_compliant content YesNo
+  output language_determined content string
+
+scope Article6Language:
+  label lang_compliant
+  definition language_compliant equals Yes
+  definition language_determined equals "Ukrainian (State)"
+```
