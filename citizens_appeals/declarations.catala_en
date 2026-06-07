@@ -100,6 +100,29 @@ declaration enumeration OfficialBody:
   -- EnvironmentalInspection
   -- OtherAuthorizedBody
 
+declaration enumeration InformationAccessType:
+  -- Open
+  -- Restricted
+
+declaration enumeration RestrictedInformationType:
+  -- None
+  -- Confidential
+  -- Secret
+  -- Official
+
+declaration enumeration InformationContentType:
+  -- Personal
+  -- Reference
+  -- Environmental
+  -- GoodsServices
+  -- ScientificTechnical
+  -- Tax
+  -- Legal
+  -- Statistical
+  -- Sociological
+  -- CriticalTechnological
+  -- Other
+
 declaration structure AppealAuthor:
   data category content ApplicantCategory
   data signed content YesNo
@@ -119,4 +142,13 @@ declaration structure ComplaintSubject:
 declaration structure EvidenceDocument:
   data hasPreviousDecisions content YesNo
   data documentDate content date
+
+declaration structure InformationObject:
+  data contentType content InformationContentType
+  data accessType content InformationAccessType
+  data restrictedType content RestrictedInformationType
+  data isAboutMilitaryObjects content YesNo
+  data isAboutHealthAndSafety content YesNo
+  data isAboutPublicFunds content YesNo
+  data isAboutOfficialMisconduct content YesNo
 ```

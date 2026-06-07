@@ -1,0 +1,87 @@
+## Law of Ukraine "On Information"
+
+```catala
+declaration scope InformationAccess:
+  input info content InformationObject
+  input isPublicInterest content YesNo
+  output actualAccessType content InformationAccessType
+  output restrictionAllowed content YesNo
+
+scope InformationAccess:
+  # Article 20, Part 2: Any information is open, unless restricted by law
+  label access_default
+  definition actualAccessType equals Open
+  
+  label restriction_default
+  definition restrictionAllowed equals No
+
+  # Article 21, Part 4: Information that CANNOT be restricted
+  label non_restrictable
+  exception restriction_default
+  definition restrictionAllowed under condition
+    info.isAboutHealthAndSafety = Yes
+    or info.isAboutPublicFunds = Yes
+    or info.isAboutOfficialMisconduct = Yes
+    or (info.contentType = Environmental and info.isAboutMilitaryObjects = No)
+    consequence equals No
+
+  # Article 29: Public interest overrides restriction
+  label public_interest_override
+  exception access_default
+  definition actualAccessType under condition
+    isPublicInterest = Yes
+    consequence equals Open
+
+  # General restriction rule
+  label restricted_info exception access_default
+  definition actualAccessType under condition
+    info.accessType = Restricted
+    and (info.isAboutHealthAndSafety = No
+         and info.isAboutPublicFunds = No
+         and info.isAboutOfficialMisconduct = No
+         and not (info.contentType = Environmental and info.isAboutMilitaryObjects = No))
+    consequence equals Restricted
+
+declaration scope PersonalDataProtection:
+  input info content InformationObject
+  input subjectConsent content YesNo
+  input isNationalSecurityInterest content YesNo
+  output collectionAllowed content YesNo
+
+scope PersonalDataProtection:
+  # Article 11, Part 2: No collection of confidential info without consent
+  label consent_rule
+  definition collectionAllowed equals No
+  
+  exception consent_rule
+  definition collectionAllowed under condition
+    subjectConsent = Yes
+    or isNationalSecurityInterest = Yes
+    or info.restrictedType = RestrictedInformationType.None
+    consequence equals Yes
+
+declaration scope JournalistRights:
+  input isJournalist content YesNo
+  input hasAccreditation content YesNo
+  input isOpenEvent content YesNo
+  output canAttendEvent content YesNo
+  output canMakeRecords content YesNo
+
+scope JournalistRights:
+  # Article 25, 26
+  label default_attendance
+  definition canAttendEvent equals No
+  
+  exception default_attendance
+  definition canAttendEvent under condition
+    isJournalist = Yes and (hasAccreditation = Yes or isOpenEvent = Yes)
+    consequence equals Yes
+
+  label default_records
+  definition canMakeRecords equals No
+  
+  exception default_records
+  definition canMakeRecords under condition
+    isJournalist = Yes
+    consequence equals Yes
+```
