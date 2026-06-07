@@ -8,6 +8,7 @@ declaration enumeration ApplicantType:
   -- LegalEntityOrEntrepreneur
 
 declaration structure Application:
+  data isAnonymous content YesNo
   data isRepeated content YesNo
   data isCourtPending content YesNo
   data containsAbuse content YesNo
