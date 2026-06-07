@@ -1,0 +1,66 @@
+## KUPAP Article 255. Persons authorized to draw up protocols on administrative offenses
+
+```catala
+declaration scope Article255KUPAP:
+  input violationType content KUPAPViolationType
+  input officialBody content OfficialBody
+  output hasRightToCreateProtocol content YesNo
+
+scope Article255KUPAP:
+  definition hasRightToCreateProtocol equals No
+
+  # Ombudsman Secretariat (Clause 8-1)
+  # Article 212-3 (except Advocacy and Public Funds)
+  label ombudsman_rule exception
+  definition hasRightToCreateProtocol under condition
+    officialBody = OmbudsmanSecretariat and (
+      violationType = NonDisclosureRequiredByLaw
+      or violationType = PublicInformationViolation
+      or violationType = ArchiveInformationViolation
+      or violationType = ProhibitedAccessRestriction
+      or violationType = CourtDecisionAccessViolation
+      or violationType = CitizensAppealViolation
+      or violationType = EIARegistryViolation
+      or violationType = RehabilitationCommissionViolation
+      or violationType = ExtractiveIndustriesViolation
+    )
+    consequence equals Yes
+
+  # Bar Council (Clause 9-1)
+  # Article 212-3 in terms of Law on Advocacy (LawyerRequestViolation)
+  label bar_council_rule exception
+  definition hasRightToCreateProtocol under condition
+    officialBody = BarCouncil and violationType = LawyerRequestViolation
+    consequence equals Yes
+
+  # National Police (Clause 1)
+  label police_rule exception
+  definition hasRightToCreateProtocol under condition
+    officialBody = NationalPolice and (
+      violationType = Article51
+      or violationType = Article130
+      or violationType = Article173_2
+      or violationType = Article173_6
+      or violationType = Article212_15
+      or violationType = Article212_21
+      or violationType = Article204_1
+      or violationType = Article204_2
+    )
+    consequence equals Yes
+
+  # Accounts Chamber (Clause 1, point regarding Accounts Chamber)
+  label accounts_chamber_rule exception
+  definition hasRightToCreateProtocol under condition
+    officialBody = AccountsChamber and (
+      violationType = Article164_14_p3_6
+    )
+    consequence equals Yes
+
+  # Control Department of VR Apparatus
+  label vr_control_rule exception
+  definition hasRightToCreateProtocol under condition
+    officialBody = ControlDeptVerkhovnaRada and (
+      violationType = Article188_19_p1_4
+    )
+    consequence equals Yes
+```

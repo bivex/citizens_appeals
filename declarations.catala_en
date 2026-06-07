@@ -87,6 +87,19 @@ declaration enumeration Jurisdiction:
   -- AdministrativeBody
   -- Court
 
+declaration enumeration OfficialBody:
+  -- NationalPolice
+  -- OmbudsmanSecretariat
+  -- BarCouncil
+  -- AccountsChamber
+  -- ControlDeptVerkhovnaRada
+  -- AntiMonopolyCommittee
+  -- StateBorderGuard
+  -- SBUService
+  -- TaxService
+  -- EnvironmentalInspection
+  -- OtherAuthorizedBody
+
 declaration structure AppealAuthor:
   data category content ApplicantCategory
   data signed content YesNo
